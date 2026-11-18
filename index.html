@@ -1,0 +1,1510 @@
+<!DOCTYPE html>
+<html lang="es" data-theme="light">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Dashboard Noticias</title>
+<meta name="description" content="Dashboard Noticias: noticias económicas, financieras y políticas.">
+<script>
+/* Aplica el tema antes de pintar para evitar parpadeo */
+(function () {
+  var t = null;
+  try { t = localStorage.getItem('dn-theme'); } catch (e) {}
+  if (t !== 'light' && t !== 'dark') {
+    t = (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) ? 'dark' : 'light';
+  }
+  document.documentElement.setAttribute('data-theme', t);
+})();
+</script>
+<style>
+:root {
+  --navy-950: #061224;
+  --navy-900: #0a1f3d;
+  --navy-800: #102c52;
+  --navy-700: #1a3d6d;
+  --teal-500: #14b8a6;
+  --teal-400: #2dd4bf;
+  --teal-600: #0e9488;
+
+  --bg: #f1f5f9;
+  --surface: #ffffff;
+  --surface-2: #f6f9fc;
+  --line: #d9e2ec;
+  --text: #0c1b33;
+  --text-2: #4a5b75;
+  --text-3: #70809a;
+  --accent: #0e9488;
+  --accent-ink: #ffffff;
+  --accent-soft: rgba(20, 184, 166, .12);
+  --nav-bg: #0a1f3d;
+  --nav-text: #c7d6ea;
+  --nav-text-strong: #ffffff;
+  --nav-active: rgba(45, 212, 191, .16);
+  --warn-bg: #fff6e0; --warn-line: #f1c964; --warn-text: #6b4a00;
+  --err-bg: #fdecec; --err-line: #ef9a9a; --err-text: #7a1717;
+  --info-bg: #e8f3fb; --info-line: #9cc7e6; --info-text: #0f3a5c;
+  --shadow: 0 1px 2px rgba(10, 31, 61, .06), 0 6px 18px rgba(10, 31, 61, .05);
+
+  --c-1: #14b8a6;
+  --c-2: #2f6fdb;
+  --c-3: #6f86b8;
+  --c-4: #0b7285;
+  --c-5: #8aa4d6;
+  --c-6: #3aa6b9;
+
+  --font-ui: "Segoe UI Variable Text", "Segoe UI", "SF Pro Text", system-ui, -apple-system, "Helvetica Neue", Arial, sans-serif;
+  --font-head: "Iowan Old Style", "Palatino Linotype", Palatino, "Book Antiqua", Georgia, "Times New Roman", serif;
+}
+
+:root[data-theme="dark"] {
+  --bg: #061224;
+  --surface: #0c2040;
+  --surface-2: #0f284d;
+  --line: #1c3a66;
+  --text: #e9f1fb;
+  --text-2: #a9bbd4;
+  --text-3: #7f93b1;
+  --accent: #2dd4bf;
+  --accent-ink: #04202a;
+  --accent-soft: rgba(45, 212, 191, .14);
+  --nav-bg: #040d1b;
+  --nav-text: #a9bbd4;
+  --nav-text-strong: #ffffff;
+  --nav-active: rgba(45, 212, 191, .14);
+  --warn-bg: #3a2c06; --warn-line: #8a6a12; --warn-text: #f6d98a;
+  --err-bg: #3b1316; --err-line: #8c2f36; --err-text: #f8b4b4;
+  --info-bg: #0c2f4a; --info-line: #1f5d8a; --info-text: #b8dcf5;
+  --shadow: 0 1px 2px rgba(0, 0, 0, .35), 0 8px 22px rgba(0, 0, 0, .25);
+}
+
+* { box-sizing: border-box; }
+html, body { height: 100%; }
+body {
+  margin: 0;
+  font-family: var(--font-ui);
+  font-size: 15px;
+  line-height: 1.5;
+  color: var(--text);
+  background: var(--bg);
+  -webkit-font-smoothing: antialiased;
+}
+button, input, select { font: inherit; color: inherit; }
+button { cursor: pointer; }
+a { color: inherit; }
+[hidden] { display: none !important; }
+:focus-visible { outline: 2px solid var(--teal-400); outline-offset: 2px; border-radius: 4px; }
+.sr-only { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+
+/* ---------- Estructura ---------- */
+.app { display: grid; grid-template-columns: 252px minmax(0, 1fr); min-height: 100%; }
+
+.sidebar {
+  position: sticky; top: 0; align-self: start; height: 100vh;
+  background: var(--nav-bg); color: var(--nav-text);
+  display: flex; flex-direction: column; padding: 20px 14px 16px;
+  border-right: 1px solid rgba(255, 255, 255, .05);
+  overflow-y: auto;
+}
+.brand { display: flex; align-items: center; gap: 11px; padding: 4px 8px 20px; }
+.brand-mark {
+  width: 38px; height: 38px; border-radius: 9px; flex: none;
+  background: linear-gradient(135deg, var(--teal-400), var(--navy-700));
+  display: grid; place-items: center; color: #fff;
+}
+.brand-name { font-family: var(--font-head); font-size: 19px; font-weight: 700; color: var(--nav-text-strong); line-height: 1.1; }
+.brand-sub { font-size: 12px; color: var(--nav-text); opacity: .8; }
+
+.nav-title { font-size: 12px; padding: 8px 10px 6px; color: var(--nav-text); opacity: .65; }
+.nav { display: flex; flex-direction: column; gap: 2px; }
+.nav-btn {
+  display: flex; align-items: center; gap: 10px; width: 100%;
+  background: none; border: 0; border-radius: 8px; padding: 9px 10px;
+  color: var(--nav-text); text-align: left;
+  border-left: 3px solid transparent;
+}
+.nav-btn:hover { background: rgba(255, 255, 255, .06); color: var(--nav-text-strong); }
+.nav-btn[aria-current="true"] {
+  background: var(--nav-active); color: var(--nav-text-strong);
+  border-left-color: var(--teal-400); font-weight: 600;
+}
+.nav-btn .dot { width: 9px; height: 9px; border-radius: 50%; flex: none; }
+.nav-btn .label { flex: 1; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.nav-btn .count {
+  font-variant-numeric: tabular-nums; font-size: 12px; padding: 1px 8px; border-radius: 99px;
+  background: rgba(255, 255, 255, .09);
+}
+.side-foot { margin-top: auto; padding-top: 18px; display: flex; flex-direction: column; gap: 10px; }
+.side-card { background: rgba(255, 255, 255, .05); border-radius: 10px; padding: 12px; font-size: 13px; }
+.side-card strong { display: block; color: var(--nav-text-strong); margin-bottom: 2px; font-weight: 600; }
+.side-card .num { font-variant-numeric: tabular-nums; font-size: 20px; font-weight: 700; color: var(--teal-400); }
+.btn-side {
+  display: flex; align-items: center; justify-content: center; gap: 8px;
+  background: transparent; border: 1px solid rgba(255, 255, 255, .22); color: var(--nav-text-strong);
+  border-radius: 8px; padding: 9px 12px;
+}
+.btn-side:hover { background: rgba(255, 255, 255, .08); }
+
+.scrim { display: none; }
+
+.main { min-width: 0; display: flex; flex-direction: column; }
+
+.topbar {
+  position: sticky; top: 0; z-index: 20;
+  display: flex; align-items: center; gap: 14px; flex-wrap: wrap;
+  padding: 12px 28px; background: color-mix(in srgb, var(--bg) 88%, transparent);
+  backdrop-filter: blur(8px); border-bottom: 1px solid var(--line);
+}
+.menu-btn { display: none; }
+.page-title { font-family: var(--font-head); font-size: 24px; font-weight: 700; margin: 0; line-height: 1.15; }
+.page-sub { font-size: 13px; color: var(--text-3); margin: 0; }
+.top-title { min-width: 0; flex: 1 1 220px; }
+.top-actions { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
+
+.stamp {
+  display: inline-flex; align-items: center; gap: 8px;
+  background: var(--surface); border: 1px solid var(--line); border-radius: 99px;
+  padding: 6px 14px 6px 11px; font-size: 13px; color: var(--text-2); box-shadow: var(--shadow);
+}
+.stamp b { color: var(--text); font-weight: 600; }
+.status-dot { width: 10px; height: 10px; border-radius: 50%; background: var(--text-3); flex: none; }
+.status-dot[data-s="ok"] { background: #22c55e; }
+.status-dot[data-s="partial"] { background: #f59e0b; }
+.status-dot[data-s="error"] { background: #ef4444; }
+.status-dot[data-s="pending"] { background: #60a5fa; }
+
+.btn {
+  display: inline-flex; align-items: center; justify-content: center; gap: 8px;
+  border: 1px solid var(--line); background: var(--surface); color: var(--text);
+  border-radius: 8px; padding: 8px 14px; font-weight: 600; font-size: 14px;
+  transition: background .15s, border-color .15s;
+}
+.btn:hover:not(:disabled) { border-color: var(--accent); background: var(--accent-soft); }
+.btn:disabled { opacity: .5; cursor: not-allowed; }
+.btn-primary { background: var(--accent); color: var(--accent-ink); border-color: var(--accent); }
+.btn-primary:hover:not(:disabled) { background: var(--accent); filter: brightness(1.08); }
+.btn-icon { padding: 8px; width: 38px; height: 38px; }
+.btn svg { flex: none; }
+.spin svg { animation: spin .8s linear infinite; }
+@keyframes spin { to { transform: rotate(360deg); } }
+
+.content { padding: 22px 28px 48px; display: flex; flex-direction: column; gap: 22px; max-width: 1560px; width: 100%; }
+
+/* ---------- Avisos ---------- */
+.banners { display: flex; flex-direction: column; gap: 10px; }
+.banner {
+  display: flex; gap: 12px; align-items: flex-start; padding: 12px 16px; border-radius: 10px;
+  border: 1px solid; font-size: 14px;
+}
+.banner svg { flex: none; margin-top: 2px; }
+.banner strong { display: block; margin-bottom: 2px; }
+.banner ul { margin: 6px 0 0; padding-left: 18px; }
+.banner li { margin: 2px 0; overflow-wrap: anywhere; }
+.banner-warn { background: var(--warn-bg); border-color: var(--warn-line); color: var(--warn-text); }
+.banner-err { background: var(--err-bg); border-color: var(--err-line); color: var(--err-text); }
+.banner-info { background: var(--info-bg); border-color: var(--info-line); color: var(--info-text); }
+
+/* ---------- Indicadores ---------- */
+.kpis { display: grid; grid-template-columns: repeat(auto-fit, minmax(190px, 1fr)); gap: 14px; }
+.kpi {
+  background: var(--surface); border: 1px solid var(--line); border-radius: 8px;
+  padding: 14px 16px 14px; box-shadow: var(--shadow); position: relative; overflow: hidden;
+}
+.kpi::before { content: ""; position: absolute; left: 0; top: 0; bottom: 0; width: 4px; background: var(--kc, var(--teal-500)); }
+.kpi-label { font-size: 13px; color: var(--text-2); }
+.kpi-value {
+  font-family: var(--font-head); font-size: 32px; font-weight: 700; line-height: 1.15;
+  font-variant-numeric: tabular-nums; margin-top: 4px; overflow-wrap: anywhere;
+}
+.kpi-value.small { font-size: 22px; padding-top: 6px; }
+.kpi-note { font-size: 12.5px; color: var(--text-3); margin-top: 2px; }
+.meter { height: 6px; border-radius: 99px; background: var(--line); margin-top: 8px; overflow: hidden; }
+.meter > i { display: block; height: 100%; background: var(--teal-500); border-radius: 99px; }
+
+/* ---------- Filtros ---------- */
+.toolbar {
+  background: var(--surface); border: 1px solid var(--line); border-radius: 12px;
+  padding: 14px 16px; box-shadow: var(--shadow); display: flex; flex-direction: column; gap: 12px;
+}
+.tool-row { display: flex; gap: 12px; flex-wrap: wrap; align-items: flex-end; }
+.field { display: flex; flex-direction: column; gap: 4px; min-width: 150px; flex: 1 1 160px; }
+.field.grow { flex: 3 1 280px; }
+.field label { font-size: 12.5px; color: var(--text-2); font-weight: 600; }
+.input, .select {
+  width: 100%; height: 40px; border-radius: 8px; border: 1px solid var(--line);
+  background: var(--surface-2); padding: 0 12px; color: var(--text);
+}
+.input:focus, .select:focus { border-color: var(--accent); outline: 2px solid var(--accent-soft); }
+.search-wrap { position: relative; }
+.search-wrap svg { position: absolute; left: 11px; top: 50%; transform: translateY(-50%); color: var(--text-3); pointer-events: none; }
+.search-wrap .input { padding-left: 36px; }
+.tool-actions { display: flex; gap: 10px; flex-wrap: wrap; margin-left: auto; }
+.result-line { font-size: 13.5px; color: var(--text-2); display: flex; gap: 10px; flex-wrap: wrap; align-items: center; }
+.chip {
+  display: inline-flex; align-items: center; gap: 6px; background: var(--accent-soft); color: var(--text);
+  border-radius: 99px; padding: 3px 6px 3px 11px; font-size: 12.5px; border: 0;
+}
+.chip button { border: 0; background: none; padding: 0 4px; line-height: 1; color: var(--text-2); font-size: 15px; }
+.chip button:hover { color: var(--text); }
+
+/* ---------- Gráficas ---------- */
+.charts { display: grid; grid-template-columns: repeat(auto-fit, minmax(330px, 1fr)); gap: 14px; }
+.panel {
+  background: var(--surface); border: 1px solid var(--line); border-radius: 12px;
+  padding: 16px 18px; box-shadow: var(--shadow); min-width: 0;
+}
+.panel h2 { font-family: var(--font-head); font-size: 18px; margin: 0 0 2px; }
+.panel .hint { font-size: 12.5px; color: var(--text-3); margin: 0 0 12px; }
+
+.donut-wrap { display: flex; gap: 18px; align-items: center; flex-wrap: wrap; }
+.donut { width: 150px; height: 150px; flex: none; }
+.donut .ring-bg { stroke: var(--line); }
+.donut text { fill: var(--text); font-family: var(--font-head); font-weight: 700; }
+.donut .sub { fill: var(--text-3); font-family: var(--font-ui); font-weight: 400; }
+.legend { display: flex; flex-direction: column; gap: 4px; flex: 1; min-width: 150px; }
+.legend button {
+  display: flex; align-items: center; gap: 9px; width: 100%; text-align: left; background: none;
+  border: 0; border-radius: 6px; padding: 5px 6px; font-size: 14px;
+}
+.legend button:hover { background: var(--accent-soft); }
+.legend .sw { width: 11px; height: 11px; border-radius: 3px; flex: none; }
+.legend .lbl { flex: 1; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.legend .val { font-variant-numeric: tabular-nums; color: var(--text-2); font-size: 13px; }
+
+.bars { display: flex; flex-direction: column; gap: 6px; }
+.bar-row {
+  display: grid; grid-template-columns: minmax(90px, 36%) 1fr 34px; align-items: center; gap: 10px;
+  background: none; border: 0; padding: 3px 4px; border-radius: 6px; text-align: left; width: 100%; font-size: 13.5px;
+}
+button.bar-row:hover { background: var(--accent-soft); }
+.bar-row .name { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.bar-row .track { height: 10px; background: var(--line); border-radius: 99px; overflow: hidden; }
+.bar-row .track i { display: block; height: 100%; border-radius: 99px; background: var(--bc, var(--teal-500)); }
+.bar-row .n { font-variant-numeric: tabular-nums; color: var(--text-2); text-align: right; }
+
+.timeline { display: flex; align-items: flex-end; gap: 6px; height: 160px; padding-top: 8px; }
+.tl-col { flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: flex-end; height: 100%; min-width: 0; gap: 4px; }
+.tl-col .tl-n { font-size: 11.5px; color: var(--text-2); font-variant-numeric: tabular-nums; min-height: 14px; }
+.tl-col .tl-bar { width: 100%; max-width: 26px; background: var(--teal-500); border-radius: 4px 4px 0 0; min-height: 2px; }
+.tl-col.zero .tl-bar { background: var(--line); }
+.tl-col .tl-d { font-size: 11.5px; color: var(--text-3); font-variant-numeric: tabular-nums; }
+.empty-mini { color: var(--text-3); font-size: 14px; padding: 18px 0; }
+
+/* ---------- Titulares ---------- */
+.section-head { display: flex; align-items: baseline; justify-content: space-between; gap: 12px; flex-wrap: wrap; }
+.section-head h2 { font-family: var(--font-head); font-size: 22px; margin: 0; }
+.section-head span { font-size: 13.5px; color: var(--text-2); }
+.cards { display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 14px; margin-top: 12px; }
+.card {
+  background: var(--surface); border: 1px solid var(--line); border-radius: 10px;
+  padding: 16px 18px 14px; box-shadow: var(--shadow); display: flex; flex-direction: column; gap: 10px;
+  position: relative; border-left: 5px solid var(--cc, var(--teal-500));
+}
+.card:hover { border-color: var(--cc, var(--teal-500)); }
+.card-top { display: flex; align-items: center; justify-content: space-between; gap: 10px; }
+.tag {
+  display: inline-flex; align-items: center; gap: 6px; font-size: 12.5px; font-weight: 600;
+  color: var(--text); background: var(--accent-soft); padding: 2px 10px; border-radius: 99px;
+}
+.tag i { width: 8px; height: 8px; border-radius: 50%; background: var(--cc, var(--teal-500)); }
+.card-age { font-size: 12.5px; color: var(--text-3); white-space: nowrap; }
+.card-title { font-family: var(--font-head); font-size: 19px; line-height: 1.3; font-weight: 700; margin: 0; }
+.card-title a { text-decoration: none; overflow-wrap: anywhere; }
+.card-title a:hover { text-decoration: underline; text-decoration-color: var(--teal-500); text-underline-offset: 3px; }
+.card-meta { display: flex; flex-direction: column; gap: 2px; font-size: 13.5px; color: var(--text-2); }
+.card-meta .src { font-weight: 600; color: var(--text); overflow-wrap: anywhere; }
+.card-foot { margin-top: auto; padding-top: 4px; }
+.open-link {
+  display: inline-flex; align-items: center; gap: 7px; font-size: 13.5px; font-weight: 600;
+  color: var(--accent); text-decoration: none; padding: 4px 0;
+}
+.open-link:hover { text-decoration: underline; }
+.open-link.disabled { color: var(--text-3); pointer-events: none; font-weight: 400; }
+.more-wrap { display: flex; justify-content: center; margin-top: 18px; }
+
+/* ---------- Estados vacíos ---------- */
+.empty {
+  background: var(--surface); border: 1px dashed var(--line); border-radius: 14px; padding: 36px 28px;
+  display: flex; flex-direction: column; align-items: center; text-align: center; gap: 10px; box-shadow: var(--shadow);
+}
+.empty .ico {
+  width: 62px; height: 62px; border-radius: 16px; display: grid; place-items: center;
+  background: var(--accent-soft); color: var(--accent);
+}
+.empty h2 { font-family: var(--font-head); font-size: 24px; margin: 6px 0 0; }
+.empty p { margin: 0; color: var(--text-2); max-width: 62ch; }
+.steps { text-align: left; margin: 10px 0 4px; padding: 0; list-style: none; counter-reset: s; display: flex; flex-direction: column; gap: 10px; max-width: 640px; width: 100%; }
+.steps li { counter-increment: s; display: grid; grid-template-columns: 30px 1fr; gap: 12px; align-items: start; }
+.steps li::before {
+  content: counter(s); width: 30px; height: 30px; border-radius: 50%; display: grid; place-items: center;
+  background: var(--navy-800); color: #fff; font-weight: 700; font-size: 14px;
+}
+:root[data-theme="dark"] .steps li::before { background: var(--teal-500); color: var(--accent-ink); }
+.steps b { font-weight: 600; }
+.empty-actions { display: flex; gap: 10px; flex-wrap: wrap; justify-content: center; margin-top: 8px; }
+.kbd { background: var(--accent-soft); border-radius: 5px; padding: 1px 7px; font-weight: 600; white-space: nowrap; }
+
+/* ---------- Diálogo, toast, pie ---------- */
+dialog {
+  border: 1px solid var(--line); border-radius: 14px; padding: 0; background: var(--surface); color: var(--text);
+  width: min(620px, calc(100vw - 32px)); box-shadow: 0 24px 60px rgba(0, 0, 0, .35);
+}
+dialog::backdrop { background: rgba(4, 13, 27, .6); }
+.dlg-head { display: flex; justify-content: space-between; align-items: center; gap: 12px; padding: 16px 20px; border-bottom: 1px solid var(--line); }
+.dlg-head h2 { margin: 0; font-family: var(--font-head); font-size: 20px; }
+.dlg-body { padding: 18px 20px 20px; display: flex; flex-direction: column; gap: 12px; }
+.dlg-body p { margin: 0; color: var(--text-2); }
+
+.toast {
+  position: fixed; left: 50%; bottom: 24px; transform: translate(-50%, 24px); opacity: 0;
+  background: var(--navy-900); color: #fff; border: 1px solid var(--teal-500); border-radius: 10px;
+  padding: 10px 16px; max-width: min(560px, calc(100vw - 32px)); font-size: 14px; z-index: 100;
+  transition: opacity .2s, transform .2s; pointer-events: none; box-shadow: 0 10px 30px rgba(0, 0, 0, .35);
+}
+.toast.show { opacity: 1; transform: translate(-50%, 0); }
+.footer-note { font-size: 12.5px; color: var(--text-3); text-align: center; padding: 6px 0 0; }
+
+/* ---------- Responsive ---------- */
+@media (max-width: 980px) {
+  .app { grid-template-columns: minmax(0, 1fr); }
+  .sidebar {
+    position: fixed; z-index: 60; left: 0; top: 0; width: 276px; transform: translateX(-100%);
+    transition: transform .22s ease; height: 100%;
+  }
+  body.nav-open .sidebar { transform: translateX(0); }
+  .scrim { display: block; position: fixed; inset: 0; z-index: 50; background: rgba(4, 13, 27, .55); opacity: 0; pointer-events: none; transition: opacity .2s; }
+  body.nav-open .scrim { opacity: 1; pointer-events: auto; }
+  .menu-btn { display: inline-flex; }
+  .topbar, .content { padding-left: 16px; padding-right: 16px; }
+}
+@media (max-width: 560px) {
+  .page-title { font-size: 20px; }
+  .cards { grid-template-columns: minmax(0, 1fr); }
+  .charts { grid-template-columns: minmax(0, 1fr); }
+  .tool-actions { margin-left: 0; width: 100%; }
+  .tool-actions .btn { flex: 1; }
+  .stamp { font-size: 12px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  * { animation: none !important; transition: none !important; }
+}
+@media print {
+  .sidebar, .topbar, .toolbar, .scrim, .more-wrap { display: none !important; }
+  .app { display: block; }
+}
+</style>
+</head>
+<body>
+<div class="app">
+
+  <!-- ============ Menú lateral ============ -->
+  <aside class="sidebar" id="sidebar" aria-label="Menú principal">
+    <div class="brand">
+      <div class="brand-mark" aria-hidden="true">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 17l5-6 4 4 8-10"/><path d="M15 5h5v5"/></svg>
+      </div>
+      <div>
+        <div class="brand-name">Dashboard Noticias</div>
+        <div class="brand-sub">Economía, finanzas y política</div>
+      </div>
+    </div>
+
+    <div class="nav-title" id="nav-title">Secciones</div>
+    <nav class="nav" id="nav" aria-labelledby="nav-title"></nav>
+
+    <div class="side-foot">
+      <div class="side-card" id="side-sources" aria-live="polite">
+        <strong>Fuentes consultadas</strong>
+        <span class="num" id="side-sources-num">–</span>
+        <div id="side-sources-note">Sin datos todavía</div>
+      </div>
+      <button class="btn-side" id="btn-howto" type="button">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 8v5"/><circle cx="12" cy="16.5" r=".6" fill="currentColor"/></svg>
+        Cómo traer noticias nuevas
+      </button>
+    </div>
+  </aside>
+  <div class="scrim" id="scrim" aria-hidden="true"></div>
+
+  <!-- ============ Principal ============ -->
+  <div class="main">
+    <header class="topbar">
+      <button class="btn btn-icon menu-btn" id="btn-menu" type="button" aria-label="Abrir menú" aria-controls="sidebar" aria-expanded="false">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16"/></svg>
+      </button>
+      <div class="top-title">
+        <h1 class="page-title" id="page-title">Resumen general</h1>
+        <p class="page-sub" id="page-sub">Cargando noticias…</p>
+      </div>
+      <div class="top-actions">
+        <div class="stamp" id="stamp" role="status" aria-live="polite">
+          <span class="status-dot" id="status-dot" data-s="none"></span>
+          <span id="stamp-text">Leyendo noticias.json…</span>
+        </div>
+        <button class="btn btn-primary" id="btn-refresh" type="button" title="Vuelve a leer noticias.json. No ejecuta GitHub Actions ni descarga RSS.">
+          <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 11a8 8 0 1 0-2.3 5.7"/><path d="M20 4v7h-7"/></svg>
+          <span id="refresh-label">Refresh</span>
+        </button>
+        <button class="btn btn-icon" id="btn-theme" type="button" aria-label="Cambiar a tema oscuro" title="Cambiar tema claro/oscuro"></button>
+      </div>
+    </header>
+
+    <main class="content" id="content">
+      <div class="banners" id="banners" aria-live="polite"></div>
+
+      <section class="kpis" id="kpis" aria-label="Indicadores"></section>
+
+      <div id="empty-state"></div>
+
+      <section class="toolbar" id="toolbar" aria-label="Búsqueda y filtros" hidden>
+        <div class="tool-row">
+          <div class="field grow">
+            <label for="f-q">Buscar en titulares y fuentes</label>
+            <div class="search-wrap">
+              <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="M20 20l-4-4"/></svg>
+              <input class="input" id="f-q" type="search" placeholder="Ej.: inflación, Banxico, Fed, aranceles" autocomplete="off">
+            </div>
+          </div>
+          <div class="field">
+            <label for="f-cat">Categoría</label>
+            <select class="select" id="f-cat"></select>
+          </div>
+          <div class="field">
+            <label for="f-src">Fuente</label>
+            <select class="select" id="f-src"></select>
+          </div>
+          <div class="field">
+            <label for="f-date">Fecha</label>
+            <select class="select" id="f-date">
+              <option value="all">Todas las fechas</option>
+              <option value="today">Hoy</option>
+              <option value="24h">Últimas 24 horas</option>
+              <option value="7d">Últimos 7 días</option>
+              <option value="30d">Últimos 30 días</option>
+              <option value="custom">Rango personalizado</option>
+            </select>
+          </div>
+          <div class="field">
+            <label for="f-sort">Orden</label>
+            <select class="select" id="f-sort">
+              <option value="new">Más recientes primero</option>
+              <option value="old">Más antiguas primero</option>
+              <option value="src">Fuente (A–Z)</option>
+            </select>
+          </div>
+        </div>
+        <div class="tool-row" id="custom-dates" hidden>
+          <div class="field">
+            <label for="f-from">Desde</label>
+            <input class="input" id="f-from" type="date">
+          </div>
+          <div class="field">
+            <label for="f-to">Hasta</label>
+            <input class="input" id="f-to" type="date">
+          </div>
+        </div>
+        <div class="tool-row">
+          <div class="result-line" id="result-line" aria-live="polite"></div>
+          <div class="tool-actions">
+            <button class="btn" id="btn-clear" type="button">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M18 6L6 18M6 6l12 12"/></svg>
+              Limpiar filtros
+            </button>
+            <button class="btn" id="btn-csv" type="button">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3v12"/><path d="M7 11l5 5 5-5"/><path d="M5 21h14"/></svg>
+              Exportar CSV
+            </button>
+          </div>
+        </div>
+      </section>
+
+      <section class="charts" id="charts" aria-label="Distribución temática" hidden>
+        <article class="panel">
+          <h2>Distribución por categoría</h2>
+          <p class="hint">Selecciona una categoría para filtrar.</p>
+          <div id="chart-cat"></div>
+        </article>
+        <article class="panel">
+          <h2>Titulares por día</h2>
+          <p class="hint">Últimos 14 días, según fecha de publicación.</p>
+          <div id="chart-days"></div>
+        </article>
+        <article class="panel">
+          <h2>Fuentes con más titulares</h2>
+          <p class="hint">Selecciona una fuente para filtrar.</p>
+          <div id="chart-src"></div>
+        </article>
+        <article class="panel">
+          <h2>Términos más frecuentes</h2>
+          <p class="hint">Calculado con los títulos. Selecciona un término para buscarlo.</p>
+          <div id="chart-terms"></div>
+        </article>
+      </section>
+
+      <section id="headlines" aria-label="Titulares" hidden>
+        <div class="section-head">
+          <h2 id="headlines-title">Titulares</h2>
+          <span id="headlines-count"></span>
+        </div>
+        <div class="cards" id="cards"></div>
+        <div class="more-wrap">
+          <button class="btn" id="btn-more" type="button" hidden>Mostrar más titulares</button>
+        </div>
+      </section>
+
+      <p class="footer-note">Refresh solo vuelve a leer noticias.json. Para traer noticias nuevas hay que ejecutar el workflow en GitHub.</p>
+    </main>
+  </div>
+</div>
+
+<!-- Diálogo de ayuda -->
+<dialog id="dlg-howto" aria-labelledby="dlg-title">
+  <div class="dlg-head">
+    <h2 id="dlg-title">Cómo traer noticias nuevas</h2>
+    <button class="btn btn-icon" id="btn-dlg-close" type="button" aria-label="Cerrar">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M18 6L6 18M6 6l12 12"/></svg>
+    </button>
+  </div>
+  <div class="dlg-body">
+    <p>El botón Refresh del dashboard solo vuelve a pedir el archivo noticias.json que ya está publicado. Para recopilar noticias nuevas se ejecuta el workflow desde GitHub:</p>
+    <ol class="steps">
+      <li><span>Abre tu repositorio en <b>GitHub</b> y entra a la pestaña <b>Actions</b>.</span></li>
+      <li><span>Elige el workflow <b>Actualizar noticias y publicar dashboard</b>.</span></li>
+      <li><span>Pulsa <b>Run workflow</b> y confirma con el botón verde <b>Run workflow</b>.</span></li>
+      <li><span>Cuando el workflow termine y la página se publique, vuelve aquí y pulsa <b>Refresh</b>.</span></li>
+    </ol>
+  </div>
+</dialog>
+
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+<script>
+(function () {
+  'use strict';
+
+  /* =========================================================
+     Configuración y estado
+     ========================================================= */
+  var PAGE_SIZE = 24;
+  var KNOWN_CATS = ['México', 'Estados Unidos', 'Mercados y Política'];
+  var PALETTE = ['var(--c-1)', 'var(--c-2)', 'var(--c-3)', 'var(--c-4)', 'var(--c-5)', 'var(--c-6)'];
+  var STATUSES = ['pending', 'ok', 'partial', 'error'];
+
+  var state = {
+    data: null,          // datos normalizados
+    loadError: null,     // texto del error de lectura
+    lastRead: null,      // Date de la última lectura exitosa
+    loading: false,
+    category: 'all',
+    source: 'all',
+    datePreset: 'all',
+    from: '',
+    to: '',
+    q: '',
+    sort: 'new',
+    shown: PAGE_SIZE
+  };
+
+  var $ = function (id) { return document.getElementById(id); };
+
+  /* =========================================================
+     Utilidades
+     ========================================================= */
+  function norm(s) {
+    return String(s == null ? '' : s).normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLowerCase().trim();
+  }
+  function slug(s) { return norm(s).replace(/[^a-z0-9]+/g, '-').replace(/^-+|-+$/g, ''); }
+  function str(v) { return (typeof v === 'string') ? v.trim() : (v == null ? '' : String(v)); }
+  function num(v) { var n = Number(v); return isFinite(n) && n >= 0 ? Math.round(n) : 0; }
+
+  /* Crea elementos; todo texto externo entra por textContent */
+  function el(tag, opts, kids) {
+    var node = document.createElement(tag);
+    opts = opts || {};
+    if (opts.cls) node.className = opts.cls;
+    if (opts.text != null) node.textContent = opts.text;
+    if (opts.attrs) for (var k in opts.attrs) node.setAttribute(k, opts.attrs[k]);
+    if (opts.style) for (var s in opts.style) node.style.setProperty(s, opts.style[s]);
+    if (opts.on) for (var e in opts.on) node.addEventListener(e, opts.on[e]);
+    (kids || []).forEach(function (c) { if (c) node.appendChild(c); });
+    return node;
+  }
+  function clear(node) { while (node.firstChild) node.removeChild(node.firstChild); }
+
+  /* Iconos estáticos propios (nunca contienen datos externos) */
+  function icon(path, size) {
+    var s = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
+    s.setAttribute('width', size || 18); s.setAttribute('height', size || 18);
+    s.setAttribute('viewBox', '0 0 24 24'); s.setAttribute('fill', 'none');
+    s.setAttribute('stroke', 'currentColor'); s.setAttribute('stroke-width', '2');
+    s.setAttribute('stroke-linecap', 'round'); s.setAttribute('stroke-linejoin', 'round');
+    s.setAttribute('aria-hidden', 'true');
+    path.split('|').forEach(function (d) {
+      var p = document.createElementNS('http://www.w3.org/2000/svg', 'path');
+      p.setAttribute('d', d); s.appendChild(p);
+    });
+    return s;
+  }
+  var ICON = {
+    warn: 'M12 3l10 18H2L12 3z|M12 10v5|M12 18v.01',
+    err: 'M12 3a9 9 0 1 0 0 18 9 9 0 0 0 0-18z|M12 8v5|M12 16v.01',
+    info: 'M12 3a9 9 0 1 0 0 18 9 9 0 0 0 0-18z|M12 11v5|M12 8v.01',
+    ext: 'M14 4h6v6|M20 4l-9 9|M18 14v5a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1V7a1 1 0 0 1 1-1h5',
+    news: 'M4 5h13v14a1 1 0 0 0 1 1H6a2 2 0 0 1-2-2V5z|M17 9h3v9a2 2 0 0 1-2 2|M8 9h5|M8 13h5|M8 16h3',
+    moon: 'M21 13a8 8 0 1 1-9.9-9.9A7 7 0 0 0 21 13z',
+    sun: 'M12 4V2|M12 22v-2|M4 12H2|M22 12h-2|M5.6 5.6L4.2 4.2|M19.8 19.8l-1.4-1.4|M5.6 18.4l-1.4 1.4|M19.8 4.2l-1.4 1.4|M12 7a5 5 0 1 0 0 10 5 5 0 0 0 0-10z'
+  };
+
+  function safeUrl(u) {
+    try {
+      var x = new URL(u);
+      return (x.protocol === 'http:' || x.protocol === 'https:') ? x.href : null;
+    } catch (e) { return null; }
+  }
+
+  var dtf = new Intl.DateTimeFormat('es-MX', { dateStyle: 'medium', timeStyle: 'short' });
+  var dtfDay = new Intl.DateTimeFormat('es-MX', { day: '2-digit' });
+  function fmtDate(t) { return dtf.format(new Date(t)); }
+  function relTime(t, now) {
+    var diff = (now || Date.now()) - t;
+    if (diff < 0) return 'fecha futura';
+    var m = Math.floor(diff / 60000);
+    if (m < 1) return 'hace un momento';
+    if (m < 60) return 'hace ' + m + ' min';
+    var h = Math.floor(m / 60);
+    if (h < 24) return 'hace ' + h + (h === 1 ? ' hora' : ' horas');
+    var d = Math.floor(h / 24);
+    return 'hace ' + d + (d === 1 ? ' día' : ' días');
+  }
+  function dayKey(t) {
+    var d = new Date(t);
+    return d.getFullYear() + '-' + String(d.getMonth() + 1).padStart(2, '0') + '-' + String(d.getDate()).padStart(2, '0');
+  }
+  function pad(n) { return String(n).padStart(2, '0'); }
+
+  var toastTimer = null;
+  function toast(msg) {
+    var t = $('toast');
+    t.textContent = msg;
+    t.classList.add('show');
+    clearTimeout(toastTimer);
+    toastTimer = setTimeout(function () { t.classList.remove('show'); }, 4200);
+  }
+
+  /* =========================================================
+     Normalización de datos
+     ========================================================= */
+  function normalizeData(raw) {
+    if (!raw || typeof raw !== 'object' || Array.isArray(raw)) {
+      throw new Error('El archivo noticias.json no tiene el formato esperado (se esperaba un objeto).');
+    }
+    var errs = Array.isArray(raw.errors) ? raw.errors.filter(function (e) { return typeof e === 'string' && e.trim(); }) : [];
+    var status = STATUSES.indexOf(raw.status) >= 0 ? raw.status : 'error';
+    if (STATUSES.indexOf(raw.status) < 0) errs = errs.concat(['El campo status no es válido: se muestra como error.']);
+
+    var genT = (typeof raw.generated_at === 'string') ? Date.parse(raw.generated_at) : NaN;
+    var list = Array.isArray(raw.articles) ? raw.articles : [];
+    var seen = {};
+    var articles = [];
+    list.forEach(function (a, i) {
+      if (!a || typeof a !== 'object') return;
+      var title = str(a.title);
+      if (!title) return;
+      var id = str(a.id) || ('idx-' + i);
+      if (seen[id]) return;
+      seen[id] = true;
+      var pub = (typeof a.published_at === 'string') ? Date.parse(a.published_at) : NaN;
+      var col = (typeof a.collected_at === 'string') ? Date.parse(a.collected_at) : NaN;
+      var hasPub = isFinite(pub);
+      var t = hasPub ? pub : (isFinite(col) ? col : null);
+      articles.push({
+        id: id,
+        title: title,
+        url: str(a.url),
+        safe: safeUrl(str(a.url)),
+        source: str(a.source) || 'Fuente sin nombre',
+        category: str(a.category) || 'Sin categoría',
+        published_at: str(a.published_at),
+        collected_at: str(a.collected_at),
+        t: t,
+        fallback: !hasPub,
+        _hay: norm(title + ' ' + str(a.source))
+      });
+    });
+
+    return {
+      generated_at: isFinite(genT) ? new Date(genT) : null,
+      status: status,
+      sources_ok: num(raw.sources_ok),
+      sources_total: num(raw.sources_total),
+      new_articles: num(raw.new_articles),
+      errors: errs,
+      articles: articles
+    };
+  }
+
+  /* =========================================================
+     Lectura de noticias.json (única fuente de datos)
+     ========================================================= */
+  function loadData(manual) {
+    if (state.loading) return Promise.resolve();
+    state.loading = true;
+    var btn = $('btn-refresh');
+    btn.disabled = true; btn.classList.add('spin');
+    $('refresh-label').textContent = 'Leyendo…';
+
+    var prev = state.data;
+    return fetch('./noticias.json?t=' + Date.now(), { cache: 'no-store' })
+      .then(function (res) {
+        if (!res.ok) throw new Error('El servidor respondió HTTP ' + res.status + ' al pedir noticias.json.');
+        return res.json();
+      })
+      .then(function (raw) {
+        var d = normalizeData(raw);
+        state.data = d;
+        state.loadError = null;
+        state.lastRead = new Date();
+        if (manual) {
+          var same = prev && prev.articles.length === d.articles.length &&
+            ((prev.generated_at && d.generated_at && prev.generated_at.getTime() === d.generated_at.getTime()) || (!prev.generated_at && !d.generated_at));
+          if (same) {
+            toast('Se volvió a leer noticias.json: sin cambios (' + d.articles.length + ' titulares). Para noticias nuevas ejecuta el workflow en GitHub.');
+          } else {
+            toast('noticias.json actualizado: ' + d.articles.length + ' titulares cargados.');
+          }
+        }
+      })
+      .catch(function (err) {
+        var msg = (err && err.message) ? err.message : 'Error desconocido';
+        if (err instanceof TypeError) {
+          msg = 'No se pudo leer noticias.json. Abre el dashboard desde la URL publicada (GitHub Pages) o desde un servidor local; no funciona con file://.';
+        } else if (err instanceof SyntaxError) {
+          msg = 'noticias.json no contiene JSON válido.';
+        }
+        state.loadError = msg;
+        if (manual) toast('No se pudo releer noticias.json.');
+      })
+      .then(function () {
+        state.loading = false;
+        btn.disabled = false; btn.classList.remove('spin');
+        $('refresh-label').textContent = 'Refresh';
+        applyHash();
+        renderAll();
+      });
+  }
+
+  /* =========================================================
+     Filtrado y cálculos
+     ========================================================= */
+  function allArticles() { return state.data ? state.data.articles : []; }
+
+  function categoryList() {
+    var set = {};
+    KNOWN_CATS.forEach(function (c) { set[c] = true; });
+    allArticles().forEach(function (a) { set[a.category] = true; });
+    var extra = Object.keys(set).filter(function (c) { return KNOWN_CATS.indexOf(c) < 0; }).sort(function (a, b) { return a.localeCompare(b, 'es'); });
+    return KNOWN_CATS.concat(extra);
+  }
+  function catColor(cat) {
+    var i = categoryList().indexOf(cat);
+    return PALETTE[(i < 0 ? 0 : i) % PALETTE.length];
+  }
+  function sameCat(a, b) { return norm(a) === norm(b); }
+
+  function dateBounds() {
+    var now = Date.now(), min = null, max = null;
+    var p = state.datePreset;
+    if (p === 'today') { var d = new Date(); d.setHours(0, 0, 0, 0); min = d.getTime(); }
+    else if (p === '24h') min = now - 24 * 3600e3;
+    else if (p === '7d') min = now - 7 * 24 * 3600e3;
+    else if (p === '30d') min = now - 30 * 24 * 3600e3;
+    else if (p === 'custom') {
+      if (state.from) { var f = new Date(state.from + 'T00:00:00'); if (!isNaN(f)) min = f.getTime(); }
+      if (state.to) { var t = new Date(state.to + 'T23:59:59.999'); if (!isNaN(t)) max = t.getTime(); }
+    }
+    return { min: min, max: max };
+  }
+
+  function getFiltered() {
+    var q = norm(state.q);
+    var terms = q ? q.split(/\s+/).filter(Boolean) : [];
+    var b = dateBounds();
+    var useDate = b.min != null || b.max != null;
+    var out = allArticles().filter(function (a) {
+      if (state.category !== 'all' && !sameCat(a.category, state.category)) return false;
+      if (state.source !== 'all' && a.source !== state.source) return false;
+      if (useDate) {
+        if (a.t == null) return false;
+        if (b.min != null && a.t < b.min) return false;
+        if (b.max != null && a.t > b.max) return false;
+      }
+      for (var i = 0; i < terms.length; i++) if (a._hay.indexOf(terms[i]) < 0) return false;
+      return true;
+    });
+    out.sort(function (a, b2) {
+      if (state.sort === 'src') {
+        var c = a.source.localeCompare(b2.source, 'es');
+        if (c) return c;
+        return (b2.t || 0) - (a.t || 0);
+      }
+      var ta = a.t == null ? -Infinity : a.t, tb = b2.t == null ? -Infinity : b2.t;
+      if (ta === tb) return 0;
+      return state.sort === 'old' ? ta - tb : tb - ta;
+    });
+    return out;
+  }
+
+  function countBy(list, keyFn) {
+    var m = {};
+    list.forEach(function (a) { var k = keyFn(a); m[k] = (m[k] || 0) + 1; });
+    return Object.keys(m).map(function (k) { return { key: k, count: m[k] }; })
+      .sort(function (x, y) { return y.count - x.count || x.key.localeCompare(y.key, 'es'); });
+  }
+
+  var STOP = (
+    'de la que el en y a los del se las por un para con no una su al lo como mas pero sus le ya o este si porque esta entre cuando muy sin sobre tambien me hasta hay donde quien desde todo nos durante todos uno les ni contra otros ese eso ante ellos e esto mi antes algunos que unos yo otro otras otra el tanto esa estos mucho quienes nada muchos cual poco ella estar estas algunas algo nosotros ' +
+    'segun tras ser fue son han ha sera tiene tienen hace hacen dice dijo nuevo nueva nuevos nuevas anos ano dia dias asi aun mas menos desde hacia mientras ' +
+    'the and for with from that this will have has had are was were its their about after over into more than says said new us it as at by in of on to is be an or not but how what why who when amid could would may year years news ' +
+    'video fotos foto en vivo hoy ayer'
+  ).split(/\s+/).reduce(function (m, w) { m[w] = true; return m; }, {});
+
+  function topTerms(list, n) {
+    var m = {}, shown = {};
+    list.forEach(function (a) {
+      var seenHere = {};
+      (a.title.toLowerCase().match(/[\p{L}\p{N}]+/gu) || []).forEach(function (w) {
+        var k = norm(w);
+        if (k.length < 4 || STOP[k] || /^\d+$/.test(k) || seenHere[k]) return;
+        seenHere[k] = true;
+        m[k] = (m[k] || 0) + 1;
+        if (!shown[k]) shown[k] = w;
+      });
+    });
+    return Object.keys(m).filter(function (k) { return m[k] >= 2; })
+      .map(function (k) { return { key: k, label: shown[k], count: m[k] }; })
+      .sort(function (a, b) { return b.count - a.count || a.label.localeCompare(b.label, 'es'); })
+      .slice(0, n);
+  }
+
+  /* =========================================================
+     Acciones de estado
+     ========================================================= */
+  function setCategory(cat, fromHash) {
+    if (state.category === cat) return;
+    state.category = cat;
+    state.shown = PAGE_SIZE;
+    if (!fromHash) {
+      var h = cat === 'all' ? 'resumen' : slug(cat);
+      if (h && location.hash !== '#' + h) { try { location.hash = h; } catch (e) {} }
+    }
+    closeNav();
+    renderAll();
+  }
+  function setSource(s) { state.source = s; state.shown = PAGE_SIZE; renderAll(); }
+  function setQuery(q) { state.q = q; state.shown = PAGE_SIZE; $('f-q').value = q; renderAll(); }
+
+  function resetFilters() {
+    state.source = 'all'; state.datePreset = 'all'; state.from = ''; state.to = '';
+    state.q = ''; state.sort = 'new'; state.shown = PAGE_SIZE;
+    $('f-q').value = ''; $('f-from').value = ''; $('f-to').value = '';
+    if (state.category !== 'all') setCategory('all'); else renderAll();
+  }
+
+  function applyHash() {
+    var h = (location.hash || '').replace(/^#/, '');
+    if (!h) return;
+    if (h === 'resumen') { state.category = 'all'; return; }
+    var cats = categoryList();
+    for (var i = 0; i < cats.length; i++) {
+      if (slug(cats[i]) === h) { state.category = cats[i]; return; }
+    }
+  }
+
+  /* =========================================================
+     Renderizado
+     ========================================================= */
+  function renderAll() {
+    renderStamp();
+    renderNav();
+    renderBanners();
+    renderFilters();
+    var total = allArticles().length;
+    var hasData = total > 0;
+    var filtered = hasData ? getFiltered() : [];
+    renderKPIs(filtered);
+    renderEmptyState(hasData, filtered);
+    $('toolbar').hidden = !hasData;
+    $('charts').hidden = !(hasData && filtered.length > 0);
+    $('headlines').hidden = !(hasData && filtered.length > 0);
+    if (hasData) {
+      renderResultLine(filtered, total);
+      if (filtered.length) {
+        renderCharts(filtered);
+        renderCards(filtered);
+      }
+    }
+    renderTitle(filtered, total);
+    renderTheme();
+  }
+
+  function renderTitle(filtered, total) {
+    var t = state.category === 'all' ? 'Resumen general' : state.category;
+    $('page-title').textContent = t;
+    var sub;
+    if (!state.data) sub = state.loadError ? 'No se pudieron cargar las noticias' : 'Cargando noticias…';
+    else if (!total) sub = 'Aún no hay noticias recopiladas';
+    else sub = filtered.length + ' de ' + total + ' titulares en pantalla';
+    $('page-sub').textContent = sub;
+    document.title = (state.category === 'all' ? '' : state.category + ' – ') + 'Dashboard Noticias';
+  }
+
+  function renderStamp() {
+    var dot = $('status-dot'), txt = $('stamp-text');
+    clear(txt);
+    var d = state.data;
+    if (!d) {
+      dot.setAttribute('data-s', state.loadError ? 'error' : 'none');
+      txt.textContent = state.loadError ? 'Sin lectura de noticias.json' : 'Leyendo noticias.json…';
+      return;
+    }
+    dot.setAttribute('data-s', d.status);
+    var names = { ok: 'Completo', partial: 'Parcial', error: 'Con errores', pending: 'Pendiente' };
+    if (d.generated_at) {
+      txt.appendChild(document.createTextNode('Última recopilación: '));
+      txt.appendChild(el('b', { text: fmtDate(d.generated_at.getTime()) }));
+      txt.appendChild(document.createTextNode(' (' + relTime(d.generated_at.getTime()) + '). Estado: ' + names[d.status]));
+    } else {
+      txt.appendChild(document.createTextNode('Última recopilación: '));
+      txt.appendChild(el('b', { text: 'sin fecha' }));
+      txt.appendChild(document.createTextNode('. Estado: ' + names[d.status]));
+    }
+  }
+
+  function renderNav() {
+    var nav = $('nav');
+    clear(nav);
+    var all = allArticles();
+    function item(label, cat, color, count) {
+      var active = state.category === cat;
+      var b = el('button', {
+        cls: 'nav-btn', attrs: { type: 'button' },
+        on: { click: function () { setCategory(cat); } }
+      }, [
+        color ? el('span', { cls: 'dot', style: { background: color } }) : icon('M3 12l9-8 9 8|M5 10v10h14V10', 17),
+        el('span', { cls: 'label', text: label }),
+        el('span', { cls: 'count', text: String(count) })
+      ]);
+      if (active) b.setAttribute('aria-current', 'true');
+      nav.appendChild(b);
+    }
+    item('Resumen', 'all', null, all.length);
+    categoryList().forEach(function (c) {
+      var n = all.filter(function (a) { return sameCat(a.category, c); }).length;
+      item(c, c, catColor(c), n);
+    });
+
+    var d = state.data;
+    var num = $('side-sources-num'), note = $('side-sources-note');
+    if (d && d.sources_total > 0) {
+      num.textContent = d.sources_ok + ' de ' + d.sources_total;
+      note.textContent = d.sources_ok === d.sources_total ? 'Todas respondieron' : (d.sources_total - d.sources_ok) + ' sin respuesta';
+    } else if (d) {
+      num.textContent = '–';
+      note.textContent = 'Sin fuentes registradas';
+    } else {
+      num.textContent = '–'; note.textContent = 'Sin datos todavía';
+    }
+  }
+
+  function banner(kind, title, body, list) {
+    var ic = kind === 'err' ? ICON.err : (kind === 'warn' ? ICON.warn : ICON.info);
+    var inner = el('div', {}, [el('strong', { text: title })]);
+    if (body) inner.appendChild(el('span', { text: body }));
+    if (list && list.length) {
+      var ul = el('ul');
+      list.slice(0, 12).forEach(function (e) { ul.appendChild(el('li', { text: e })); });
+      if (list.length > 12) ul.appendChild(el('li', { text: '… y ' + (list.length - 12) + ' avisos más en noticias.json' }));
+      inner.appendChild(ul);
+    }
+    return el('div', { cls: 'banner banner-' + kind, attrs: { role: kind === 'err' ? 'alert' : 'note' } }, [icon(ic, 20), inner]);
+  }
+
+  function renderBanners() {
+    var box = $('banners');
+    clear(box);
+    if (state.loadError) {
+      box.appendChild(banner('err', 'No se pudo leer noticias.json', state.loadError +
+        (state.data ? ' Se muestran los últimos datos leídos correctamente.' : ''), null));
+    }
+    var d = state.data;
+    if (!d) return;
+    if (d.status === 'pending') {
+      box.appendChild(banner('info', 'Recopilación pendiente',
+        'El archivo noticias.json existe, pero el workflow aún no ha recopilado noticias.', d.errors));
+    } else if (d.status === 'partial') {
+      var detail = d.sources_total > 0
+        ? 'Respondieron ' + d.sources_ok + ' de ' + d.sources_total + ' fuentes. Los titulares mostrados pueden estar incompletos.'
+        : 'Algunas fuentes no respondieron. Los titulares mostrados pueden estar incompletos.';
+      box.appendChild(banner('warn', 'Recopilación parcial', detail, d.errors));
+    } else if (d.status === 'error') {
+      box.appendChild(banner('err', 'La última recopilación terminó con errores',
+        d.articles.length ? 'Se muestran los titulares disponibles en el archivo, que pueden ser antiguos o incompletos.' : 'No hay titulares disponibles en el archivo.', d.errors));
+    } else if (d.errors.length) {
+      box.appendChild(banner('warn', 'Avisos de la recopilación', null, d.errors));
+    }
+    if (d.generated_at && Date.now() - d.generated_at.getTime() > 24 * 3600e3 && d.status !== 'pending') {
+      box.appendChild(banner('info', 'Datos con más de 24 horas',
+        'La última recopilación fue ' + relTime(d.generated_at.getTime()) + '. Ejecuta el workflow en GitHub para traer noticias nuevas.', null));
+    }
+  }
+
+  function fillSelect(sel, items, current, allLabel) {
+    clear(sel);
+    sel.appendChild(el('option', { text: allLabel, attrs: { value: 'all' } }));
+    items.forEach(function (it) { sel.appendChild(el('option', { text: it.label, attrs: { value: it.value } })); });
+    var exists = current === 'all' || items.some(function (i) { return i.value === current; });
+    sel.value = exists ? current : 'all';
+    return sel.value;
+  }
+
+  function renderFilters() {
+    var all = allArticles();
+    var cats = categoryList().map(function (c) { return { value: c, label: c }; });
+    state.category = fillSelect($('f-cat'), cats, state.category, 'Todas las categorías');
+    var srcs = countBy(all, function (a) { return a.source; }).map(function (x) { return { value: x.key, label: x.key + ' (' + x.count + ')' }; })
+      .sort(function (a, b) { return a.value.localeCompare(b.value, 'es'); });
+    state.source = fillSelect($('f-src'), srcs, state.source, 'Todas las fuentes');
+    $('f-date').value = state.datePreset;
+    $('f-sort').value = state.sort;
+    $('custom-dates').hidden = state.datePreset !== 'custom';
+  }
+
+  function kpiCard(label, value, note, color, small) {
+    var kids = [
+      el('div', { cls: 'kpi-label', text: label }),
+      el('div', { cls: 'kpi-value' + (small ? ' small' : ''), text: value })
+    ];
+    var c = el('div', { cls: 'kpi', style: color ? { '--kc': color } : null }, kids);
+    if (note) c.appendChild(el('div', { cls: 'kpi-note', text: note }));
+    return c;
+  }
+
+  function renderKPIs(filtered) {
+    var box = $('kpis');
+    clear(box);
+    var d = state.data;
+    if (!d) {
+      box.appendChild(kpiCard('Titulares', '–', state.loadError ? 'Sin datos por error de lectura' : 'Cargando…', 'var(--c-3)'));
+      return;
+    }
+    var total = d.articles.length;
+    var now = Date.now();
+    var last24 = filtered.filter(function (a) { return a.t != null && a.t >= now - 24 * 3600e3 && a.t <= now + 3600e3; }).length;
+    var srcCount = countBy(filtered, function (a) { return a.source; }).length;
+    var cats = countBy(filtered, function (a) { return a.category; });
+    var top = cats[0];
+
+    box.appendChild(kpiCard('Titulares en pantalla', String(filtered.length),
+      'de ' + total + ' en el archivo', 'var(--c-1)'));
+    box.appendChild(kpiCard('Últimas 24 horas', String(last24),
+      filtered.length ? Math.round(last24 * 100 / filtered.length) + '% de lo mostrado' : 'Sin titulares', 'var(--c-2)'));
+    box.appendChild(kpiCard('Fuentes con titulares', String(srcCount),
+      'en la selección actual', 'var(--c-4)'));
+    box.appendChild(kpiCard('Nuevas en la última recopilación', String(d.new_articles),
+      d.new_articles === 0 ? 'Ningún titular nuevo registrado' : 'según noticias.json', 'var(--c-6)'));
+
+    var cov = el('div', { cls: 'kpi', style: { '--kc': 'var(--c-3)' } }, [
+      el('div', { cls: 'kpi-label', text: 'Cobertura de fuentes' }),
+      el('div', { cls: 'kpi-value', text: d.sources_total > 0 ? d.sources_ok + '/' + d.sources_total : '–' })
+    ]);
+    if (d.sources_total > 0) {
+      var pct = Math.min(100, Math.round(d.sources_ok * 100 / d.sources_total));
+      cov.appendChild(el('div', { cls: 'meter', attrs: { role: 'img', 'aria-label': pct + '% de fuentes respondieron' } }, [el('i', { style: { width: pct + '%' } })]));
+      cov.appendChild(el('div', { cls: 'kpi-note', text: pct + '% respondieron' }));
+    } else {
+      cov.appendChild(el('div', { cls: 'kpi-note', text: 'Sin datos de fuentes' }));
+    }
+    box.appendChild(cov);
+
+    box.appendChild(kpiCard('Categoría con más titulares', top ? top.key : '–',
+      top ? top.count + ' titulares (' + Math.round(top.count * 100 / filtered.length) + '%)' : 'Sin titulares', top ? catColor(top.key) : 'var(--c-5)', true));
+  }
+
+  function emptyBox(iconPath, title, text, extra, actions) {
+    var box = el('div', { cls: 'empty' }, [
+      el('div', { cls: 'ico' }, [icon(iconPath, 30)]),
+      el('h2', { text: title }),
+      el('p', { text: text })
+    ]);
+    if (extra) box.appendChild(extra);
+    if (actions) box.appendChild(actions);
+    return box;
+  }
+
+  function stepsList() {
+    function li(parts) {
+      var s = el('span');
+      parts.forEach(function (p) { s.appendChild(typeof p === 'string' ? document.createTextNode(p) : el('b', { text: p.b })); });
+      return el('li', {}, [s]);
+    }
+    return el('ol', { cls: 'steps' }, [
+      li(['Abre tu repositorio en ', { b: 'GitHub' }, ' y entra a la pestaña ', { b: 'Actions' }, '.']),
+      li(['Elige el workflow ', { b: 'Actualizar noticias y publicar dashboard' }, '.']),
+      li(['Pulsa ', { b: 'Run workflow' }, ' y confirma con el botón verde ', { b: 'Run workflow' }, '.']),
+      li(['Cuando termine y la página se publique, vuelve aquí y pulsa ', { b: 'Refresh' }, '.'])
+    ]);
+  }
+
+  function renderEmptyState(hasData, filtered) {
+    var box = $('empty-state');
+    clear(box);
+    if (!state.data) {
+      if (state.loadError) {
+        box.appendChild(emptyBox(ICON.err, 'No hay datos para mostrar',
+          'El dashboard no pudo leer noticias.json. Revisa que el archivo esté publicado junto a index.html y vuelve a intentarlo.', null,
+          el('div', { cls: 'empty-actions' }, [
+            el('button', { cls: 'btn btn-primary', attrs: { type: 'button' }, text: 'Reintentar lectura', on: { click: function () { loadData(true); } } })
+          ])));
+      }
+      return;
+    }
+    if (!hasData) {
+      box.appendChild(emptyBox(ICON.news, 'Aún no se han recopilado noticias',
+        'noticias.json se leyó correctamente pero no contiene titulares. No se muestran datos de ejemplo. Para recopilar las primeras noticias ejecuta el workflow:',
+        stepsList(),
+        el('div', { cls: 'empty-actions' }, [
+          el('button', { cls: 'btn btn-primary', attrs: { type: 'button' }, text: 'Volver a leer noticias.json', on: { click: function () { loadData(true); } } })
+        ])));
+      return;
+    }
+    if (!filtered.length) {
+      box.appendChild(emptyBox(ICON.news, 'Ningún titular coincide con los filtros',
+        'Prueba con otra búsqueda, amplía el rango de fechas o quita algún filtro.', null,
+        el('div', { cls: 'empty-actions' }, [
+          el('button', { cls: 'btn btn-primary', attrs: { type: 'button' }, text: 'Limpiar filtros', on: { click: resetFilters } })
+        ])));
+    }
+  }
+
+  function renderResultLine(filtered, total) {
+    var line = $('result-line');
+    clear(line);
+    line.appendChild(el('span', { text: filtered.length + ' de ' + total + ' titulares' }));
+    function chip(label, onRemove) {
+      line.appendChild(el('span', { cls: 'chip' }, [
+        el('span', { text: label }),
+        el('button', { text: '×', attrs: { type: 'button', 'aria-label': 'Quitar filtro: ' + label }, on: { click: onRemove } })
+      ]));
+    }
+    if (state.category !== 'all') chip('Categoría: ' + state.category, function () { setCategory('all'); });
+    if (state.source !== 'all') chip('Fuente: ' + state.source, function () { setSource('all'); });
+    if (state.q) chip('Búsqueda: ' + state.q, function () { setQuery(''); });
+    if (state.datePreset !== 'all') {
+      var names = { today: 'Hoy', '24h': 'Últimas 24 horas', '7d': 'Últimos 7 días', '30d': 'Últimos 30 días', custom: 'Rango personalizado' };
+      chip('Fecha: ' + names[state.datePreset], function () {
+        state.datePreset = 'all'; state.from = ''; state.to = '';
+        $('f-from').value = ''; $('f-to').value = ''; state.shown = PAGE_SIZE; renderAll();
+      });
+    }
+    $('btn-csv').disabled = filtered.length === 0;
+  }
+
+  /* ---------- Gráficas ---------- */
+  var SVGNS = 'http://www.w3.org/2000/svg';
+  function svgEl(name, attrs) {
+    var n = document.createElementNS(SVGNS, name);
+    for (var k in attrs) n.setAttribute(k, attrs[k]);
+    return n;
+  }
+
+  function renderCharts(filtered) {
+    renderDonut(filtered);
+    renderDays(filtered);
+    renderSources(filtered);
+    renderTerms(filtered);
+  }
+
+  function renderDonut(filtered) {
+    var box = $('chart-cat');
+    clear(box);
+    var data = countBy(filtered, function (a) { return a.category; });
+    var total = filtered.length;
+    var svg = svgEl('svg', { viewBox: '0 0 42 42', 'class': 'donut', role: 'img',
+      'aria-label': 'Distribución de titulares por categoría' });
+    svg.appendChild(svgEl('circle', { cx: 21, cy: 21, r: 15.9155, fill: 'none', 'stroke-width': 5, 'class': 'ring-bg' }));
+    var acc = 0;
+    data.forEach(function (d) {
+      var pct = d.count * 100 / total;
+      var c = svgEl('circle', {
+        cx: 21, cy: 21, r: 15.9155, fill: 'none', 'stroke-width': 5,
+        'stroke-dasharray': pct + ' ' + (100 - pct), 'stroke-dashoffset': 25 - acc,
+        stroke: 'var(--cat-' + 'x' + ')'
+      });
+      c.style.stroke = catColor(d.key);
+      var t = svgEl('title', {}); t.textContent = d.key + ': ' + d.count + ' (' + Math.round(pct) + '%)';
+      c.appendChild(t);
+      svg.appendChild(c);
+      acc += pct;
+    });
+    var t1 = svgEl('text', { x: 21, y: 22.5, 'text-anchor': 'middle', 'font-size': 8 }); t1.textContent = String(total);
+    var t2 = svgEl('text', { x: 21, y: 27.5, 'text-anchor': 'middle', 'font-size': 3.2, 'class': 'sub' }); t2.textContent = total === 1 ? 'titular' : 'titulares';
+    svg.appendChild(t1); svg.appendChild(t2);
+
+    var legend = el('div', { cls: 'legend' });
+    data.forEach(function (d) {
+      legend.appendChild(el('button', {
+        attrs: { type: 'button', title: 'Filtrar por ' + d.key },
+        on: { click: function () { setCategory(d.key); } }
+      }, [
+        el('span', { cls: 'sw', style: { background: catColor(d.key) } }),
+        el('span', { cls: 'lbl', text: d.key }),
+        el('span', { cls: 'val', text: d.count + ' (' + Math.round(d.count * 100 / total) + '%)' })
+      ]));
+    });
+    box.appendChild(el('div', { cls: 'donut-wrap' }, [svg, legend]));
+  }
+
+  function renderDays(filtered) {
+    var box = $('chart-days');
+    clear(box);
+    var days = [];
+    var today = new Date(); today.setHours(12, 0, 0, 0);
+    for (var i = 13; i >= 0; i--) {
+      var d = new Date(today.getTime() - i * 86400000);
+      days.push({ key: dayKey(d.getTime()), date: d, n: 0 });
+    }
+    var idx = {};
+    days.forEach(function (d, i) { idx[d.key] = i; });
+    var inRange = 0;
+    filtered.forEach(function (a) {
+      if (a.t == null) return;
+      var k = dayKey(a.t);
+      if (idx[k] != null) { days[idx[k]].n++; inRange++; }
+    });
+    if (!inRange) {
+      box.appendChild(el('div', { cls: 'empty-mini', text: 'No hay titulares con fecha en los últimos 14 días para la selección actual.' }));
+      return;
+    }
+    var max = Math.max.apply(null, days.map(function (d) { return d.n; }));
+    var tl = el('div', { cls: 'timeline', attrs: { role: 'img', 'aria-label': 'Titulares por día, últimos 14 días' } });
+    var mf = new Intl.DateTimeFormat('es-MX', { day: 'numeric', month: 'short' });
+    days.forEach(function (d) {
+      var h = d.n ? Math.max(4, Math.round(d.n * 100 / max)) : 0;
+      var col = el('div', { cls: 'tl-col' + (d.n ? '' : ' zero'), attrs: { title: mf.format(d.date) + ': ' + d.n + ' titulares' } }, [
+        el('div', { cls: 'tl-n', text: d.n ? String(d.n) : '' }),
+        el('div', { cls: 'tl-bar', style: { height: (d.n ? h * 1.0 : 0) + '%' } }),
+        el('div', { cls: 'tl-d', text: dtfDay.format(d.date) })
+      ]);
+      tl.appendChild(col);
+    });
+    box.appendChild(tl);
+  }
+
+  function barRow(label, count, max, color, onClick, title) {
+    var kids = [
+      el('span', { cls: 'name', text: label, attrs: { title: label } }),
+      el('span', { cls: 'track' }, [el('i', { style: { width: Math.max(3, Math.round(count * 100 / max)) + '%', '--bc': color || 'var(--teal-500)' } })]),
+      el('span', { cls: 'n', text: String(count) })
+    ];
+    var row = el('button', { cls: 'bar-row', attrs: { type: 'button', title: title || label }, on: { click: onClick } }, kids);
+    row.querySelector('.track i').style.background = color || 'var(--teal-500)';
+    return row;
+  }
+
+  function renderSources(filtered) {
+    var box = $('chart-src');
+    clear(box);
+    var data = countBy(filtered, function (a) { return a.source; }).slice(0, 8);
+    var max = data.length ? data[0].count : 1;
+    var bars = el('div', { cls: 'bars' });
+    data.forEach(function (d, i) {
+      bars.appendChild(barRow(d.key, d.count, max, PALETTE[i % PALETTE.length], function () { setSource(d.key); }, 'Filtrar por ' + d.key));
+    });
+    box.appendChild(bars);
+  }
+
+  function renderTerms(filtered) {
+    var box = $('chart-terms');
+    clear(box);
+    var data = topTerms(filtered, 8);
+    if (!data.length) {
+      box.appendChild(el('div', { cls: 'empty-mini', text: 'Todavía no hay términos que se repitan en al menos dos titulares.' }));
+      return;
+    }
+    var max = data[0].count;
+    var bars = el('div', { cls: 'bars' });
+    data.forEach(function (d) {
+      bars.appendChild(barRow(d.label, d.count, max, 'var(--c-2)', function () { setQuery(d.label); }, 'Buscar “' + d.label + '”'));
+    });
+    box.appendChild(bars);
+  }
+
+  /* ---------- Tarjetas de titulares ---------- */
+  function renderCards(filtered) {
+    var wrap = $('cards');
+    clear(wrap);
+    var upTo = Math.min(state.shown, filtered.length);
+    var now = Date.now();
+    $('headlines-title').textContent = state.category === 'all' ? 'Titulares recientes' : 'Titulares de ' + state.category;
+    $('headlines-count').textContent = 'Mostrando ' + upTo + ' de ' + filtered.length;
+
+    for (var i = 0; i < upTo; i++) {
+      var a = filtered[i];
+      var color = catColor(a.category);
+
+      var title = el('h3', { cls: 'card-title' });
+      if (a.safe) {
+        title.appendChild(el('a', { text: a.title, attrs: { href: a.safe, target: '_blank', rel: 'noopener noreferrer' } }));
+      } else {
+        title.textContent = a.title;
+      }
+
+      var when = a.t == null ? 'Sin fecha' : fmtDate(a.t);
+      var meta = el('div', { cls: 'card-meta' }, [
+        el('span', { cls: 'src', text: a.source }),
+        el('span', { text: a.t == null ? 'Sin fecha disponible' : (a.fallback ? 'Recopilada: ' + when : 'Publicada: ' + when) })
+      ]);
+
+      var link = a.safe
+        ? el('a', { cls: 'open-link', attrs: { href: a.safe, target: '_blank', rel: 'noopener noreferrer', 'aria-label': 'Abrir nota original en ' + a.source } },
+            [el('span', { text: 'Abrir nota original' }), icon(ICON.ext, 15)])
+        : el('span', { cls: 'open-link disabled', text: 'Enlace no disponible' });
+
+      var card = el('article', { cls: 'card', style: { '--cc': color } }, [
+        el('div', { cls: 'card-top' }, [
+          el('span', { cls: 'tag' }, [el('i'), el('span', { text: a.category })]),
+          el('span', { cls: 'card-age', text: a.t == null ? '' : relTime(a.t, now) })
+        ]),
+        title,
+        meta,
+        el('div', { cls: 'card-foot' }, [link])
+      ]);
+      wrap.appendChild(card);
+    }
+
+    var more = $('btn-more');
+    more.hidden = upTo >= filtered.length;
+    more.textContent = 'Mostrar más titulares (' + (filtered.length - upTo) + ' restantes)';
+  }
+
+  /* =========================================================
+     Exportación CSV
+     ========================================================= */
+  function csvCell(v) {
+    var s = String(v == null ? '' : v);
+    if (/^[=+\-@\t\r]/.test(s)) s = "'" + s;   /* evita fórmulas en hojas de cálculo */
+    return '"' + s.replace(/"/g, '""') + '"';
+  }
+  function exportCSV() {
+    var rows = getFiltered();
+    if (!rows.length) { toast('No hay titulares para exportar con los filtros actuales.'); return; }
+    var head = ['id', 'titulo', 'fuente', 'categoria', 'publicada', 'recopilada', 'url'];
+    var lines = [head.map(csvCell).join(',')];
+    rows.forEach(function (a) {
+      lines.push([a.id, a.title, a.source, a.category, a.published_at, a.collected_at, a.url].map(csvCell).join(','));
+    });
+    var blob = new Blob(['\ufeff' + lines.join('\r\n')], { type: 'text/csv;charset=utf-8' });
+    var now = new Date();
+    var name = 'noticias_' + now.getFullYear() + pad(now.getMonth() + 1) + pad(now.getDate()) + '_' + pad(now.getHours()) + pad(now.getMinutes()) + '.csv';
+    var url = URL.createObjectURL(blob);
+    var a = document.createElement('a');
+    a.href = url; a.download = name;
+    document.body.appendChild(a); a.click();
+    setTimeout(function () { document.body.removeChild(a); URL.revokeObjectURL(url); }, 500);
+    toast('Se exportaron ' + rows.length + ' titulares a ' + name + '.');
+  }
+
+  /* =========================================================
+     Tema claro/oscuro
+     ========================================================= */
+  function currentTheme() { return document.documentElement.getAttribute('data-theme') === 'dark' ? 'dark' : 'light'; }
+  function renderTheme() {
+    var b = $('btn-theme');
+    var dark = currentTheme() === 'dark';
+    clear(b);
+    b.appendChild(icon(dark ? ICON.sun : ICON.moon, 19));
+    var label = dark ? 'Cambiar a tema claro' : 'Cambiar a tema oscuro';
+    b.setAttribute('aria-label', label);
+    b.setAttribute('title', label);
+  }
+  function toggleTheme() {
+    var next = currentTheme() === 'dark' ? 'light' : 'dark';
+    document.documentElement.setAttribute('data-theme', next);
+    try { localStorage.setItem('dn-theme', next); } catch (e) {}
+    renderTheme();
+  }
+
+  /* =========================================================
+     Menú lateral móvil
+     ========================================================= */
+  function openNav() {
+    document.body.classList.add('nav-open');
+    $('btn-menu').setAttribute('aria-expanded', 'true');
+  }
+  function closeNav() {
+    document.body.classList.remove('nav-open');
+    $('btn-menu').setAttribute('aria-expanded', 'false');
+  }
+
+  /* =========================================================
+     Eventos
+     ========================================================= */
+  var searchTimer = null;
+  $('f-q').addEventListener('input', function (e) {
+    var v = e.target.value;
+    clearTimeout(searchTimer);
+    searchTimer = setTimeout(function () { state.q = v; state.shown = PAGE_SIZE; renderAll(); }, 160);
+  });
+  $('f-cat').addEventListener('change', function (e) { setCategory(e.target.value); });
+  $('f-src').addEventListener('change', function (e) { setSource(e.target.value); });
+  $('f-date').addEventListener('change', function (e) {
+    state.datePreset = e.target.value; state.shown = PAGE_SIZE;
+    if (state.datePreset !== 'custom') { state.from = ''; state.to = ''; $('f-from').value = ''; $('f-to').value = ''; }
+    renderAll();
+  });
+  $('f-from').addEventListener('change', function (e) { state.from = e.target.value; state.shown = PAGE_SIZE; renderAll(); });
+  $('f-to').addEventListener('change', function (e) { state.to = e.target.value; state.shown = PAGE_SIZE; renderAll(); });
+  $('f-sort').addEventListener('change', function (e) { state.sort = e.target.value; state.shown = PAGE_SIZE; renderAll(); });
+
+  $('btn-clear').addEventListener('click', resetFilters);
+  $('btn-csv').addEventListener('click', exportCSV);
+  $('btn-refresh').addEventListener('click', function () { loadData(true); });
+  $('btn-theme').addEventListener('click', toggleTheme);
+  $('btn-more').addEventListener('click', function () { state.shown += PAGE_SIZE; renderAll(); });
+
+  $('btn-menu').addEventListener('click', function () {
+    document.body.classList.contains('nav-open') ? closeNav() : openNav();
+  });
+  $('scrim').addEventListener('click', closeNav);
+  document.addEventListener('keydown', function (e) { if (e.key === 'Escape') closeNav(); });
+
+  var dlg = $('dlg-howto');
+  $('btn-howto').addEventListener('click', function () {
+    closeNav();
+    if (typeof dlg.showModal === 'function') dlg.showModal(); else dlg.setAttribute('open', '');
+  });
+  $('btn-dlg-close').addEventListener('click', function () {
+    if (typeof dlg.close === 'function') dlg.close(); else dlg.removeAttribute('open');
+  });
+  dlg.addEventListener('click', function (e) { if (e.target === dlg) dlg.close(); });
+
+  window.addEventListener('hashchange', function () {
+    var prev = state.category;
+    state.category = 'all';
+    applyHash();
+    if (state.category !== prev) { state.shown = PAGE_SIZE; }
+    renderAll();
+  });
+
+  /* Refresca las etiquetas relativas ("hace 5 min") cada minuto sin pedir red */
+  setInterval(function () { if (state.data) { renderStamp(); } }, 60000);
+
+  /* =========================================================
+     Arranque
+     ========================================================= */
+  renderTheme();
+  renderAll();
+  loadData(false);
+})();
+</script>
+</body>
+</html>
