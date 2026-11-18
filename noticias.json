@@ -1,11 +1,20 @@
 {
-  "generated_at": "2026-11-18T04:44:06.456116Z",
+  "generated_at": "2026-11-18T04:54:22.488273Z",
   "status": "ok",
   "sources_ok": 13,
   "sources_total": 13,
-  "new_articles": 71,
+  "new_articles": 78,
   "errors": [],
   "articles": [
+    {
+      "id": "4323136304e87467fec57edb",
+      "title": "Buscan reformas para hacer frente a la “crisis” del empleo juvenil - El Economista",
+      "url": "https://news.google.com/rss/articles/CBMiqgFBVV95cUxPdkFiLTJsWlZqQ05VZm9pME9mWlhMdzltYnBwRDBFdlUzM01FMEtYYjZfNDhRdmV4SW9teWV2cmFpNUVDVDhhdTVyZEszTkxvdlVtWHJUV1NGM3AwRW1HVjI3aUZpSmV0elIwc0p4OFNLSHE0eXNGM0ZaakVVc2puQ3VFTG9fdWNSMVZpRE53LWxBdGx0aDh2c1VkVUNRdndob3dzalN6THNsZ9IBrwFBVV95cUxNYVBwdEh6UHp3aU85MUJLbFc4ZWk1R2Z1MEVURUJSWHloREhVVVRxM19YTFllR1htOGZWT2o4aENuXzlaRHhEdk9zUlhPZHhNYjRhNTFpTGYzRTkxMllsYnc3cDBFVDRLYjk2NTNjOE10RjJKelAxdjlqUHBZeVlHUC03b2FTN1NoeUZqRm0zeTV0WXVGSDJmQmZ0Umkyc2ttTUJGYzI5aHRKQk1lVGlV?oc=5",
+      "source": "El Economista",
+      "category": "México",
+      "published_at": "2026-11-18T04:44:22Z",
+      "collected_at": "2026-11-18T04:54:22.488273Z"
+    },
     {
       "id": "e3cb9851340f408153e748bd",
       "title": "Kevin O’Leary Says Nvidia Needs Leader Who Can Manage ‘International Pressure’ as Crypto Punters Raise Odds of NVDA Stock Hitting $180 By Month-End",
@@ -14,6 +23,24 @@
       "category": "Mercados",
       "published_at": "2026-11-18T04:40:40Z",
       "collected_at": "2026-11-18T04:44:06.456116Z"
+    },
+    {
+      "id": "ea75e012126b03598fb5e1bc",
+      "title": "Confianza de inversionistas alemanes repunta hasta 35.6 pts - El Economista",
+      "url": "https://news.google.com/rss/articles/CBMisgFBVV95cUxPZ1hLcWtSTm9DX0JvQ3dseXdTZGdHMk1mbUwwN1dnSGNJcVRTT0gyUVFoTWZPWmRMaW94eTBBWHFiaEZpckw5MF9aaV9GaDlwa3lwcFE0bHdOU2VPY1dpRGlMaUpfSGM1RVh3X1VYbTdDejRwcjRsaldRS0lrOU12UlRaYkFNOEM5YnFQVk1JcEVBaDZKZlBJOEJCSUZUVGNiU1VJMV85aXlSM3BRbDF0S05R0gG3AUFVX3lxTE5kaXhZTTA2MnpXMGZGN1VZdjhZZ1N4SG5KUjYtVnVkNFEtSGMycWgtdEJEOTF2emZNZGZPUExja3lCS1pTWU9kakkySlJhSEVyazUza3VxUVFUWllFUkVLb2dqc1hXR1k0WnVSeUtybDhjQXBDUlBvYUJ3dEE3aWFRM0J4dWZUQWhkRTdPUzF5eF9fYnZNbkVXbGNlaExjLTRHcngxSkdSandqZXN6SzczbDlYcnhpUQ?oc=5",
+      "source": "El Economista",
+      "category": "México",
+      "published_at": "2026-11-18T04:40:35Z",
+      "collected_at": "2026-11-18T04:54:22.488273Z"
+    },
+    {
+      "id": "3945285772a82812fd2a0d32",
+      "title": "El español De Cos se acerca al puesto más alto del BCE con el respaldo de Alemania - El Economista",
+      "url": "https://news.google.com/rss/articles/CBMitAFBVV95cUxNWlVXN1BfY0hCWEU2SFQ1eExabF9JVjhPRTRQdS03MTJ5dW83NXBNc0l0WTdYTGVLTjNJNFpTOHFSeXpObFFYZ2laME91MXZpdlhlZURuSzhsNi15Y1JqaHJmanpqUlVyOGF4bUFzSjgxR283QU43cElBUVZMejEtdGFKOGNDRUhNTXFsSmNJZFB4UDlqZFlGYktNV2gzMkZmeVlybWZKUlYyMk1tYi0tTThScDPSAboBQVVfeXFMTTJiRTgtcDF4dXE4a196SlNfVjhGVjczbHBQWU5aYnM2UXdnR1VqWHBUZjZzaEU3QTItSU5zX3dYLTZZWVNkbmpwNDZqSG1oNDJrZzZRYnNZY1VFWjhGcU5Dd2RPdGhGVEhGUXgzUE1lcERfZ2JBR2s5SXotUHIzX0ZTbXB5b04za3lkUHAyWDQtb3BSdDE4SmVyVWMwcDhBeHFhbFU3LU0xdlctWTNFMWVGRVVqclpSak1R?oc=5",
+      "source": "El Economista",
+      "category": "México",
+      "published_at": "2026-11-18T04:37:30Z",
+      "collected_at": "2026-11-18T04:54:22.488273Z"
     },
     {
       "id": "88c5a677c91f33019b2ab8a4",
@@ -250,6 +277,15 @@
       "collected_at": "2026-11-18T04:33:48.386912Z"
     },
     {
+      "id": "fcbf98d15afdc2d887f24d33",
+      "title": "Gold slides to over one-year low on firm dollar, US rate outlook - Reuters",
+      "url": "https://news.google.com/rss/articles/CBMiqAFBVV95cUxQVlk2MG4xbDV2emVoNk9vRVhTcTlRbkZLMDgwMjBMTEdVeXFDV21zX0NVdmF0YzQzRDZ4TkowaDJQQlZlTDBsbm9BWHFXNXpYZzVVejAtTGRZTTFHRjV4dllJV0ZxVzVvbVJCN1lxdk50NXVaNkRxTGJQbDYyZjhNNElTUElOWVU0eW0ySnBRMndSU1ZrTGE4ZlNMdDk0UXVmUjZLSEVfQlc?oc=5",
+      "source": "Reuters",
+      "category": "Estados Unidos",
+      "published_at": "2026-11-18T03:10:00Z",
+      "collected_at": "2026-11-18T04:54:22.488273Z"
+    },
+    {
       "id": "163d27eec453f4a04c1c86d4",
       "title": "A Rocket Failure Just Cost Amazon 40 Internet Satellites. It's Good News for SpaceX, but I'd Still Want a Lower Stock Price.",
       "url": "https://www.fool.com/investing/2026/11/17/a-rocket-failure-just-cost-amazon-40-internet-satellites-it-s-good-news-for-spacex-but-i-d-still-want-a-lower-stock-price/?.tsrc=rss",
@@ -311,6 +347,15 @@
       "category": "Mercados",
       "published_at": "2026-11-18T02:47:19Z",
       "collected_at": "2026-11-18T04:33:48.386912Z"
+    },
+    {
+      "id": "0738c630c5ab9d85a91dc5fb",
+      "title": "Bank of Japan governor says central bank should keep raising rates - Reuters",
+      "url": "https://news.google.com/rss/articles/CBMisgFBVV95cUxNLXVIT0VoOTAtWnNpWjBvTlRGS0o1aEp1RklzQjZLTVFOb1pha3FPSUJJaFJrMjIzQzZ5WGtOUG5OUl9VM2paLTZ3aEY4d3ZLMFN5NUdkSU5aT09EOWs1MFp1eUVSbzh6VVkyaEFuTWo0cS1Tb1RGVlJKdWdoSXlsbkZJRFJnT2tDMHNINXhGSDlDVzZnWTVkV2pYWGcwZnhjMEk1RHZQSWlsQkJCNW5KbGJR?oc=5",
+      "source": "Reuters",
+      "category": "Mercados",
+      "published_at": "2026-11-18T02:39:00Z",
+      "collected_at": "2026-11-18T04:54:22.488273Z"
     },
     {
       "id": "456072cae6ea8b35e8a4c195",
@@ -419,6 +464,15 @@
       "category": "Mercados",
       "published_at": "2026-11-18T00:46:32Z",
       "collected_at": "2026-11-18T04:33:48.386912Z"
+    },
+    {
+      "id": "049693d7f2779d8fbbf0c587",
+      "title": "Poised to Break 2007 Record! 10-Year U.S. Treasury Yields Have Remained Above 5% for 27 Days - Moomoo",
+      "url": "https://news.google.com/rss/articles/CBMinwFBVV95cUxPNGN5a0wyR3hOT2VWZDNNdVZyeXBVV3U4ZHUySFo1THRyVTZkaDROR3pNelJjZWZ2MjJlSWJwZXVPVk9rdnVYcTBYbExZdTRjMlJSbzdkSDJLNVNXdTFrVXN2Q045TXNZcEw0c3h6RkYzUGVKZ1dHQWJJY21rSWpvU1RFLVU1U0diazVPX2dkZmE4dlk3WGFuVE8zQnM4NWs?oc=5",
+      "source": "Moomoo",
+      "category": "Estados Unidos",
+      "published_at": "2026-11-18T00:45:57Z",
+      "collected_at": "2026-11-18T04:54:22.488273Z"
     },
     {
       "id": "ef7926c55c486c616bfede31",
@@ -986,6 +1040,15 @@
       "category": "Mercados",
       "published_at": "2026-11-17T18:49:55Z",
       "collected_at": "2026-11-18T04:33:48.386912Z"
+    },
+    {
+      "id": "b35800b7f3ef7c53e60ecd2d",
+      "title": "UnitedHealth Stocks Fall 4.62% as CMS Proposes Wider Medicare Advantage Audits - Yahoo Finance",
+      "url": "https://news.google.com/rss/articles/CBMilAFBVV95cUxPSDlwYzA5c2dVN2RzT2YzOUR5YXE3YjY0SXZCbjZzRTZwOWZtZEF2RTFwU25qTHhsSXFoMkFxeXRyX1JPRXlNTlJ3VVN2UWwtS2tDd2drb0pMeVNXeXp2MzQzN05OR1BrQnhZTUU2ZVhFQXBvVTN4QjY5QUQ2ZEVxUm96TjBlaV9KT3JUelA5VUwtMno5?oc=5",
+      "source": "Yahoo Finance",
+      "category": "Mercados",
+      "published_at": "2026-11-17T18:37:58Z",
+      "collected_at": "2026-11-18T04:54:22.488273Z"
     },
     {
       "id": "506eb04a70d46547478ec3f3",
@@ -2641,69 +2704,6 @@
       "source": "CNBC / Politics",
       "category": "Política",
       "published_at": "2026-11-16T08:38:16Z",
-      "collected_at": "2026-11-18T04:33:48.386912Z"
-    },
-    {
-      "id": "73b170ba829ba3b6f9fd02b8",
-      "title": "Monedas de 20 pesos: cuáles puedes usar para pagar, según Banxico - DeDinero",
-      "url": "https://news.google.com/rss/articles/CBMiqwFBVV95cUxQTi1mVm0xY2VmWmNpc2wwOWF2MVo3R2p0dWc4ZEZweS1BU3p2cU9yVDRWM1JQM1U0bWk2RHVfdUNadDczU0RTejFMTm5BUDY1TF9zbWlhTEJMMjFCUEZLQVdId3Y3Nk12N1JLNURaV05zUDZJaUVBZDdXNTZLLVA3VHRGWFBYaWJFTzhGdFBQVkdxck5oV2xyNDR3S1FPMWI1SUFIWXVVbXVXeUHSAb8BQVVfeXFMTmtlckJKOXM0d3gtN1lNRXFIVWJUOVFCTWYxdXR2UndUdW02c3lsT3ZWT2JJcEdqalZEcFZ4WkFYeUdtNmtFaGhJdVZDRy1PSGIzWE9Zc2ViVEZ6Zy1zVkJweXBCbDJBYTJlRl84clh3WXZKckVJTXpwT0NEZnl2NVBkQmdCNUU1ejd1UEJSUk5SRWxqdlNtMjJLRTFWRVA0Z1d4ZUFQWk5kYzU2bG5uQ1VWNzB4SUp3OWhMMlpJdlk?oc=5",
-      "source": "DeDinero",
-      "category": "México",
-      "published_at": "2026-11-16T08:00:00Z",
-      "collected_at": "2026-11-18T04:33:48.386912Z"
-    },
-    {
-      "id": "ec207ffcb0fda9f44f5a8ad2",
-      "title": "Record foreign inflows fuel Indian stocks' November surge - Reuters",
-      "url": "https://news.google.com/rss/articles/CBMipwFBVV95cUxQYjRGMFN3SE5Vdklnd2tiZHp6NUdkNWpNU3pDRHNyZXczNnRKWVMyNnJTVGhBYWwzOWltcC1xMHZrd09Vc0htZlRoNVNLSjFMWmJRUWlkdWZka1NwdTY0Nmlid3dncHF3ZUhEVDlRRHFmWVRUWXBhb0ttVlpZQ0ZXZjJzYUJKeTU2RFRYSER6TGZqOExoZFpfTWhDckRXS3NHNHctNXNWQQ?oc=5",
-      "source": "Reuters",
-      "category": "Mercados",
-      "published_at": "2026-11-16T07:49:00Z",
-      "collected_at": "2026-11-18T04:33:48.386912Z"
-    },
-    {
-      "id": "6de0ca1803862455e2614058",
-      "title": "Periódico especializado en economía, finanzas y negocios - El Economista",
-      "url": "https://news.google.com/rss/articles/CBMib0FVX3lxTFBvWGpyVnF2NkZrTHBSeHRKakpZUEw0RzhzYkhGZGZUZWpWVWdhRWlBMUx5S1poalZad21sSnlNQVRqUldRbHRNTkptUV9jbXBHdVNhd0hqLXFrUnlXLTZka2RwS2FuZDY5Rk9SR1N6UQ?oc=5",
-      "source": "El Economista",
-      "category": "México",
-      "published_at": "2026-11-16T07:21:22Z",
-      "collected_at": "2026-11-18T04:33:48.386912Z"
-    },
-    {
-      "id": "d4df8113601ddc7fa02fc9ad",
-      "title": "How will Fed rate hikes impact markets? - UBS",
-      "url": "https://news.google.com/rss/articles/CBMijgFBVV95cUxPLVdJOWhtSmxHR0hiU0RHSDhZbkQ2ZlVrZ3NSdnpXdndocnp1V2o1dmp3TWhVWTZTYXlIdE1wXzdoNmJNQkFYS05TRkQwd2x5eVRxclc1Si1wQjNSU01vOGVzT0xqbXNyTnNoR0piUlRSM192MWxFc1V2aWFXS3JHR2EyUnc5dVRYWWM0enNB?oc=5",
-      "source": "UBS",
-      "category": "Estados Unidos",
-      "published_at": "2026-11-16T05:42:35Z",
-      "collected_at": "2026-11-18T04:33:48.386912Z"
-    },
-    {
-      "id": "0a4183e1fafcd55d502cc35e",
-      "title": "Morning Bid: AI selloff resumes as Nvidia earnings loom - Reuters",
-      "url": "https://news.google.com/rss/articles/CBMigwFBVV95cUxQcFRFLTFjUUlGa0plMjBTUHVpcVFwMXkzbWR2MWs3TnBjSE9tLUJWb2Z1Szg3MV9ON010RmN1VXJMMTRaMG51Ynp3ZEJBRTdnRXB6MzF6b2RzXzhDQlZIMXFZZ3BOTWIyN1ZyRi1xQ2dCbVVMNWliS1lubWVkb2plalJGWQ?oc=5",
-      "source": "Reuters",
-      "category": "Mercados",
-      "published_at": "2026-11-16T05:32:00Z",
-      "collected_at": "2026-11-18T04:33:48.386912Z"
-    },
-    {
-      "id": "3a9a700596e9f16a4639948f",
-      "title": "Periódico especializado en economía, finanzas y negocios - El Economista",
-      "url": "https://news.google.com/rss/articles/CBMigwFBVV95cUxQajZQLTd6R2xZcU5xc2h1ZUlSakt0TE9NMlphRC1RbkFxR0RyOWJnNjM4dXlrOWpRY1ZpUVRoaUQ1SUtpMzRPM1E0bUpKaEFQOS1LR0JzMmxwYWhqQllTWTNFcmNXWHhvTGJxbFR0eFVjWC1NU3BkWFprczZSVU5HMkJqOA?oc=5",
-      "source": "El Economista",
-      "category": "México",
-      "published_at": "2026-11-16T05:25:48Z",
-      "collected_at": "2026-11-18T04:33:48.386912Z"
-    },
-    {
-      "id": "8797d434886718a3f38f43ac",
-      "title": "Periódico especializado en economía, finanzas y negocios - El Economista",
-      "url": "https://news.google.com/rss/articles/CBMidEFVX3lxTE94dks0Z2FYOUp3MjM3VjdoU0YtVm4zWDJDb2dyNjZSTUE3Nl9KdUdYNUxqUGRMczRnTDUwZ2p1VUw4eFlkVVRjVUxNRktBMWRUSXNxelpUWEZlbHpjcWxKSmgyUWxKa2lVcFhscmxHZ043c05x?oc=5",
-      "source": "El Economista",
-      "category": "México",
-      "published_at": "2026-11-16T05:25:09Z",
       "collected_at": "2026-11-18T04:33:48.386912Z"
     }
   ]
