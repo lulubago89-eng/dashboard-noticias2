@@ -1,9 +1,9 @@
 {
-  "generated_at": "2026-11-18T04:33:48.386912Z",
+  "generated_at": "2026-11-18T04:34:18.222884Z",
   "status": "ok",
   "sources_ok": 13,
   "sources_total": 13,
-  "new_articles": 367,
+  "new_articles": 68,
   "errors": [],
   "articles": [
     {
@@ -887,6 +887,15 @@
       "category": "Estados Unidos",
       "published_at": "2026-11-17T20:14:31Z",
       "collected_at": "2026-11-18T04:33:48.386912Z"
+    },
+    {
+      "id": "7e9caf89503a2012b547fb9a",
+      "title": "Asana, Snowflake, PagerDuty, C3.ai, and GoDaddy shares plummet, what you need to know - TradingView",
+      "url": "https://news.google.com/rss/articles/CBMi2AFBVV95cUxNUWVSbnp0NHhNMGxGVmxjdnRwWjU1eHBlMldpSTlvOVdFT2FzQ0x1MlNrdlJwSVZXRlBvb0xpZHpyUTR1a1gyX0lvZnBPNWEtOExaYnVEbXY2WENITlJETG5KbHR1d1Iyc1R4TDRFSUdrT2IzaWtsMWFycnRiMnl1NVhhZFhwdWdnNFhfS0laU3lXVVFmdmZCZ2R4VmlmbzhkdHF1RWY5b1lmdVlXYWtOdlRMM3RzMGFRTUh0amE1N1o0Q3N5ZzNXdW1PQVhOUXhJVXpHb0FWb18?oc=5",
+      "source": "TradingView",
+      "category": "Estados Unidos",
+      "published_at": "2026-11-17T20:00:58Z",
+      "collected_at": "2026-11-18T04:34:18.222884Z"
     },
     {
       "id": "e051155050ee8e853253639f",
@@ -2695,15 +2704,6 @@
       "source": "CNBC / Politics",
       "category": "Política",
       "published_at": "2026-11-15T18:10:18Z",
-      "collected_at": "2026-11-18T04:33:48.386912Z"
-    },
-    {
-      "id": "b020bce244c0ddf9aeace926",
-      "title": "Trump breaks silence about FAA nationwide ground stop, blames Biden administration",
-      "url": "https://www.cnbc.com/2026/11/15/trump-breaks-silence-on-faa-nationwide-ground-stop-blames-biden-.html",
-      "source": "CNBC / Politics",
-      "category": "Política",
-      "published_at": "2026-11-15T16:56:40Z",
       "collected_at": "2026-11-18T04:33:48.386912Z"
     }
   ]
