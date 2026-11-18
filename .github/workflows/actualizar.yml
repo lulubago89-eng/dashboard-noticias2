@@ -13,7 +13,7 @@ permissions:
   pages: write
   id-token: write
 
-concurrency
+concurrency:
   group: macro-pulse-pages
   cancel-in-progress: false
 
