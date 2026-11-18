@@ -1,11 +1,20 @@
 {
-  "generated_at": "2026-11-18T04:34:18.222884Z",
+  "generated_at": "2026-11-18T04:44:06.456116Z",
   "status": "ok",
   "sources_ok": 13,
   "sources_total": 13,
-  "new_articles": 68,
+  "new_articles": 71,
   "errors": [],
   "articles": [
+    {
+      "id": "e3cb9851340f408153e748bd",
+      "title": "Kevin O’Leary Says Nvidia Needs Leader Who Can Manage ‘International Pressure’ as Crypto Punters Raise Odds of NVDA Stock Hitting $180 By Month-End",
+      "url": "https://www.benzinga.com/markets/prediction-markets/26/11/63375714/kevin-o-leary-nvidia-ceo-jensen-huang-nvda-price-prediction-polymarket?utm_source=yahooFinance&utm_campaign=partner_feed&utm_medium=referral&.tsrc=rss",
+      "source": "Yahoo Finance / Acciones",
+      "category": "Mercados",
+      "published_at": "2026-11-18T04:40:40Z",
+      "collected_at": "2026-11-18T04:44:06.456116Z"
+    },
     {
       "id": "88c5a677c91f33019b2ab8a4",
       "title": "Putin says EU is losing industry, falling behind competition ahead of meeting with Trump, Xi",
@@ -140,6 +149,15 @@
       "category": "Mercados",
       "published_at": "2026-11-18T03:30:02Z",
       "collected_at": "2026-11-18T04:33:48.386912Z"
+    },
+    {
+      "id": "3d358138b826c81236e98526",
+      "title": "‘Not the Nvidia I Know’: Jim Cramer Questions Employee Morale; Colette Kress Has ‘High Confidence’ Staff Still ‘Enjoy’ Their Work",
+      "url": "https://finance.yahoo.com/markets/stocks/articles/not-nvidia-know-jim-cramer-032607380.html?.tsrc=rss",
+      "source": "Yahoo Finance / Acciones",
+      "category": "Mercados",
+      "published_at": "2026-11-18T03:26:07Z",
+      "collected_at": "2026-11-18T04:44:06.456116Z"
     },
     {
       "id": "16ff7d3489e2fbbb1b33ecf7",
@@ -1816,6 +1834,15 @@
       "collected_at": "2026-11-18T04:33:48.386912Z"
     },
     {
+      "id": "182ee3b258c79cf8fd32c6e2",
+      "title": "Reaction to US curbs on AI chips that threaten data centre boom - Reuters",
+      "url": "https://news.google.com/rss/articles/CBMirAFBVV95cUxNZnd5TnBGQ3lpamhJaVNOcFJVbnZacm4wckxwY0didVRKUGtKMi1lOU9FamZndms5ZGNuLUYyRWhkbnBIRVFiaWRpem51MDlMVm5odWJheWRmWEJFazY3elhXdk0yeEdpekVvWHdfSG5oMXdpa3RSLXFmY1E2eWtmTVRuWTZpMGpKM18wT0psLWdZX1RsY2MxbnhVM19FYXU3bkpkLXFNY0N3QzU4?oc=5",
+      "source": "Reuters",
+      "category": "Mercados",
+      "published_at": "2026-11-17T05:28:00Z",
+      "collected_at": "2026-11-18T04:44:06.456116Z"
+    },
+    {
       "id": "bb2449d3fc1604c1989c7a4d",
       "title": "Top 3 Canadian Nuclear Stocks With Earnings Growth Up To 37% - Yahoo Finance",
       "url": "https://news.google.com/rss/articles/CBMijwFBVV95cUxQUk9yb2JSQlo1eHlua2V6WmdacDdQUV9jYnc2VjFZOU9ZVkdZUjl0WU9RRXREelpLbkd0NFNweW10OTZoUFJhc051bUpjc1hiek9ad2ZmOTVxTm1wamhqOUI2ZHRoQlpUb2ZnSjctTVVOUUVwam1oUVM2OU1Zdkp2dVVMYWcweXV3Vk82TVp5TQ?oc=5",
@@ -2677,33 +2704,6 @@
       "source": "El Economista",
       "category": "México",
       "published_at": "2026-11-16T05:25:09Z",
-      "collected_at": "2026-11-18T04:33:48.386912Z"
-    },
-    {
-      "id": "25649baebd5cec2038da950c",
-      "title": "Periódico especializado en economía, finanzas y negocios - El Economista",
-      "url": "https://news.google.com/rss/articles/CBMie0FVX3lxTFBzX1FFeE53b0pYRW92LWp0MU5mbTItXzZEUGhOc1lzblZxRklSZDA3YThBVXU2dWdVZEtsVF9RYkc1RDEzODdFWUV1WE1JZGhxcktnQ2VyRjZKS1J4b05EVnJsWTA2WVB6dnRwMkV1MmZVUTBsVGZ4WHBtYw?oc=5",
-      "source": "El Economista",
-      "category": "México",
-      "published_at": "2026-11-16T04:54:24Z",
-      "collected_at": "2026-11-18T04:33:48.386912Z"
-    },
-    {
-      "id": "79aab8d2fc54b21960f2b6b1",
-      "title": "China’s slowdown deepens in October as industrial output, retail sales, investment miss estimates",
-      "url": "https://www.cnbc.com/2026/11/16/china-retail-sales-october-industrial-output-investment.html",
-      "source": "CNBC / Finance",
-      "category": "Mercados",
-      "published_at": "2026-11-16T03:53:59Z",
-      "collected_at": "2026-11-18T04:33:48.386912Z"
-    },
-    {
-      "id": "1bdabeffa2d447bc96863479",
-      "title": "Bessent calls for ‘dramatic shakeup’ at Nvidia, urges outside CEO",
-      "url": "https://www.cnbc.com/2026/11/15/bessent-nvidia-ceo-lutnick-megaspeed.html",
-      "source": "CNBC / Politics",
-      "category": "Política",
-      "published_at": "2026-11-15T18:10:18Z",
       "collected_at": "2026-11-18T04:33:48.386912Z"
     }
   ]
